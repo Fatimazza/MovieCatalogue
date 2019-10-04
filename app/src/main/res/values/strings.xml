@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MovieCatalogue</string>
+    <string name="app_name">Movie Catalogue</string>
+    <string name="movie_title_dummy">This is The Example of Movie Title</string>
+    <string name="movie_desc_dummy">As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos.</string>
 </resources>
