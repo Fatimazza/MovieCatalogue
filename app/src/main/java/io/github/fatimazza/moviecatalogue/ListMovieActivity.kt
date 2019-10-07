@@ -9,30 +9,35 @@ import io.github.fatimazza.moviecatalogue.model.Movie
 import io.github.fatimazza.moviecatalogue.model.MoviesData
 import kotlinx.android.synthetic.main.activity_list_movie.*
 
-class ListMovieActivity : AppCompatActivity() {
+class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallback {
 
     private val listMovie: ListView
     get() = lv_movie
 
     private var list: ArrayList<Movie> = arrayListOf()
 
+    private lateinit var listMovieAdapter: ListMovieAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_movie)
 
         setupListMovieAdapter(this)
-        setItemClickListener(listMovie)
+        setItemClickListener()
     }
 
     private fun setupListMovieAdapter(context: Context) {
         list.addAll(MoviesData.listData)
 
-        val adapter = ListMovieAdapter(context, list)
-        listMovie.adapter = adapter
+        listMovieAdapter = ListMovieAdapter(context, list)
+        listMovie.adapter = listMovieAdapter
     }
 
-    private fun setItemClickListener(listMovie: ListView) {
-        listMovie.setOnItemClickListener { adapterView, view, index, l ->
-            Toast.makeText(this@ListMovieActivity, list[index].title, Toast.LENGTH_LONG).show() }
+    private fun setItemClickListener() {
+        listMovieAdapter.setOnItemClickCallback(this)
+    }
+
+    override fun onItemClicked(data: Movie) {
+        Toast.makeText(this, "You choose " + data.title, Toast.LENGTH_SHORT).show()
     }
 }
