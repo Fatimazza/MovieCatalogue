@@ -1,9 +1,9 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.github.fatimazza.moviecatalogue.model.Movie
 import io.github.fatimazza.moviecatalogue.model.MoviesData
@@ -38,6 +38,9 @@ class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallb
     }
 
     override fun onItemClicked(data: Movie) {
-        Toast.makeText(this, "You choose " + data.title, Toast.LENGTH_SHORT).show()
+        val intentMovie = Intent(this, DetailMovieActivity::class.java).apply {
+            putExtra(DetailMovieActivity.EXTRA_MOVIE, data)
+        }
+        startActivity(intentMovie)
     }
 }
