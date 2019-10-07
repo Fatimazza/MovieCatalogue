@@ -1,12 +1,10 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import io.github.fatimazza.moviecatalogue.model.Movie
 import io.github.fatimazza.moviecatalogue.model.MoviesData
 import kotlinx.android.synthetic.main.activity_list_movie.*
