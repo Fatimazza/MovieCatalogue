@@ -34,12 +34,7 @@ class ListMovieActivity : AppCompatActivity() {
     }
 
     private fun setItemClickListener(listMovie: ListView) {
-        listMovie.setOnItemClickListener(
-            object : AdapterView.OnItemClickListener{
-                override fun onItemClick(adapterView: AdapterView<*>?, view: View?, index: Int, l: Long) {
-                    Toast.makeText(this@ListMovieActivity, list[index].title, Toast.LENGTH_LONG).show()
-                }
-            }
-        )
+        listMovie.setOnItemClickListener { adapterView, view, index, l ->
+            Toast.makeText(this@ListMovieActivity, list[index].title, Toast.LENGTH_LONG).show() }
     }
 }
