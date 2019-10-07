@@ -11,6 +11,12 @@ import kotlinx.android.synthetic.main.item_list_movie.view.*
 
 class ListMovieAdapter(val context: Context, val listMovie: ArrayList<Movie>) : BaseAdapter() {
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     override fun getItem(i: Int): Any {
         return listMovie[i]
     }
@@ -28,12 +34,12 @@ class ListMovieAdapter(val context: Context, val listMovie: ArrayList<Movie>) : 
 
         val viewHolder = ViewHolder(viewLayout)
         val movie = getItem(i) as Movie
-        viewHolder.bind(context, movie)
+        viewHolder.bind(context, movie, i)
         return viewLayout
     }
 
     private inner class ViewHolder(private val view: View) {
-        fun bind(context: Context, movie: Movie) {
+        fun bind(context: Context, movie: Movie, position: Int) {
             with(view) {
                 tv_movie_title_item.text = movie.title
                 tv_movie_desc_item.text = movie.description
@@ -42,6 +48,11 @@ class ListMovieAdapter(val context: Context, val listMovie: ArrayList<Movie>) : 
                     .load(movie.poster)
                     .into(iv_movie_image_item)
             }
+            view.setOnClickListener { onItemClickCallback.onItemClicked(listMovie[position]) }
         }
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: Movie)
     }
 }
