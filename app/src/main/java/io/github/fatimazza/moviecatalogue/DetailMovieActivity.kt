@@ -34,6 +34,7 @@ class DetailMovieActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail_movie)
 
         displayMovieDetail()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun displayMovieDetail() {
