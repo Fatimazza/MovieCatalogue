@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import io.github.fatimazza.moviecatalogue.model.Movie
-import io.github.fatimazza.moviecatalogue.model.MoviesData
 import kotlinx.android.synthetic.main.activity_list_movie.*
 
 class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallback {
@@ -27,10 +26,31 @@ class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallb
     }
 
     private fun setupListMovieAdapter(context: Context) {
-        list.addAll(MoviesData.listData)
+        list.addAll(getMoviesData())
 
         listMovieAdapter = ListMovieAdapter(context, list)
         listMovie.adapter = listMovieAdapter
+    }
+
+    private fun getMoviesData(): ArrayList<Movie> {
+        val movieTitle = resources.getStringArray(R.array.movie_title)
+        val moviePoster = resources.getIntArray(R.array.movie_poster)
+        val movieDesc = resources.getStringArray(R.array.movie_desc)
+        val movieRelease = resources.getStringArray(R.array.movie_release)
+        val movieRuntime = resources.getStringArray(R.array.movie_runtime)
+
+        val listMovie = ArrayList<Movie>()
+        for (position in movieTitle.indices) {
+            val movie = Movie(
+                movieTitle[position],
+                moviePoster[position],
+                movieDesc[position],
+                movieRelease[position],
+                movieRuntime[position]
+            )
+            listMovie.add(movie)
+        }
+        return listMovie
     }
 
     private fun setItemClickListener() {
