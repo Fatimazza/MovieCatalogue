@@ -34,7 +34,7 @@ class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallb
 
     private fun getMoviesData(): ArrayList<Movie> {
         val movieTitle = resources.getStringArray(R.array.movie_title)
-        val moviePoster = resources.getIntArray(R.array.movie_poster)
+        val moviePoster = resources.obtainTypedArray(R.array.movie_poster)
         val movieDesc = resources.getStringArray(R.array.movie_desc)
         val movieRelease = resources.getStringArray(R.array.movie_release)
         val movieRuntime = resources.getStringArray(R.array.movie_runtime)
@@ -43,13 +43,14 @@ class ListMovieActivity : AppCompatActivity(), ListMovieAdapter.OnItemClickCallb
         for (position in movieTitle.indices) {
             val movie = Movie(
                 movieTitle[position],
-                moviePoster[position],
+                moviePoster.getResourceId(position, -1),
                 movieDesc[position],
                 movieRelease[position],
                 movieRuntime[position]
             )
             listMovie.add(movie)
         }
+        moviePoster.recycle()
         return listMovie
     }
 
