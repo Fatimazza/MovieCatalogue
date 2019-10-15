@@ -5,10 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
+import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
+import io.github.fatimazza.moviecatalogue.model.TvShow
+import kotlinx.android.synthetic.main.fragment_list_television.*
 
 class ListTelevisionFragment : Fragment() {
+
+    private val listTelevision: ListView
+        get() = lv_tvshow
+
+    private var list: ArrayList<TvShow> = arrayListOf()
+
+    private lateinit var listTelevisionAdapter: ListTelevisionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,4 +29,37 @@ class ListTelevisionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_list_television, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupListTelevisionAdapter()
+    }
+
+    private fun setupListTelevisionAdapter() {
+        list.addAll(getTelevisionData())
+
+        listTelevisionAdapter = ListTelevisionAdapter(requireContext(), list)
+        listTelevision.adapter = listTelevisionAdapter
+    }
+
+    private fun getTelevisionData(): ArrayList<TvShow> {
+        val tvshowTitle = resources.getStringArray(R.array.tvshow_title)
+        val tvshowPoster = resources.obtainTypedArray(R.array.tvshow_poster)
+        val tvshowDesc = resources.getStringArray(R.array.tvshow_desc)
+        val tvshowRelease = resources.getStringArray(R.array.tvshow_release)
+        val tvshowRuntime = resources.getStringArray(R.array.tvshow_runtime)
+
+        val listTelevision = ArrayList<TvShow>()
+        for (position in tvshowTitle.indices) {
+            val television = TvShow(
+                tvshowTitle[position],
+                tvshowPoster.getResourceId(position, -1),
+                tvshowDesc[position],
+                tvshowRelease[position],
+                tvshowRuntime[position]
+            )
+            listTelevision.add(television)
+        }
+        tvshowPoster.recycle()
+        return listTelevision
+    }
 }
