@@ -12,7 +12,7 @@ import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.Movie
-import kotlinx.android.synthetic.main.activity_list_movie.*
+import kotlinx.android.synthetic.main.fragment_list_movie.*
 
 class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
