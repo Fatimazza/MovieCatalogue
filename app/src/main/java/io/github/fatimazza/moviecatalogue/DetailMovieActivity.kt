@@ -1,6 +1,7 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -72,5 +73,15 @@ class DetailMovieActivity : AppCompatActivity() {
         Glide.with(this)
             .load(tvShow.poster)
             .into(ivMovieImage)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> true
+        }
     }
 }
