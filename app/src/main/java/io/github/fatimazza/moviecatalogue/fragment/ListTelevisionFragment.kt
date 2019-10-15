@@ -1,18 +1,20 @@
 package io.github.fatimazza.moviecatalogue.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.TvShow
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
-class ListTelevisionFragment : Fragment() {
+class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback {
 
     private val listTelevision: ListView
         get() = lv_tvshow
@@ -32,6 +34,7 @@ class ListTelevisionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListTelevisionAdapter()
+        setItemClickListener()
     }
 
     private fun setupListTelevisionAdapter() {
@@ -61,5 +64,16 @@ class ListTelevisionFragment : Fragment() {
         }
         tvshowPoster.recycle()
         return listTelevision
+    }
+
+    private fun setItemClickListener() {
+        listTelevisionAdapter.setOnItemClickCallback(this)
+    }
+
+    override fun onItemClicked(data: TvShow) {
+        val intentTelevision = Intent(requireContext(), DetailMovieActivity::class.java).apply {
+            putExtra(DetailMovieActivity.EXTRA_TELEVISION, data)
+        }
+        startActivity(intentTelevision)
     }
 }
