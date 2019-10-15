@@ -6,6 +6,9 @@
     <string name="movie_detail_release_title">Released date:</string>
     <string name="movie_detail_runtime_title">Runtime:</string>
 
+    <string name="menu_movie">Movie</string>
+    <string name="menu_tv_show">Tv Show</string>
+
     <string-array name="movie_title">
         <item>Avengers: Endgame</item>
         <item>Bird Box</item>
