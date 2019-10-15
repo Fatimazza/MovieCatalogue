@@ -21,7 +21,7 @@
         <activity android:name=".DetailMovieActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListMovieActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity android:name=".ListMovieActivity" />
     </application>

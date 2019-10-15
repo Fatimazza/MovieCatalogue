@@ -1,18 +1,20 @@
 package io.github.fatimazza.moviecatalogue.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.Movie
 import kotlinx.android.synthetic.main.activity_list_movie.*
 
-class ListMovieFragment : Fragment() {
+class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     private val listMovie: ListView
         get() = lv_movie
@@ -32,6 +34,7 @@ class ListMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListMovieAdapter()
+        setItemClickListener()
     }
 
     private fun setupListMovieAdapter() {
@@ -62,4 +65,16 @@ class ListMovieFragment : Fragment() {
         moviePoster.recycle()
         return listMovie
     }
+
+    private fun setItemClickListener() {
+        listMovieAdapter.setOnItemClickCallback(this)
+    }
+
+    override fun onItemClicked(data: Movie) {
+        val intentMovie = Intent(requireContext(), DetailMovieActivity::class.java).apply {
+            putExtra(DetailMovieActivity.EXTRA_MOVIE, data)
+        }
+        startActivity(intentMovie)
+    }
+
 }
