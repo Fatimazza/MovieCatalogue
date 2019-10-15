@@ -1,6 +1,9 @@
 package io.github.fatimazza.moviecatalogue
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -51,4 +54,17 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_settings) {
+            val intentSettings = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intentSettings)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
