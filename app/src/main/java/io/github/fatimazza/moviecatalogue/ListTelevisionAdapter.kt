@@ -1,17 +1,16 @@
 package io.github.fatimazza.moviecatalogue
 
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.github.fatimazza.moviecatalogue.model.TvShow
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
-class ListTelevisionAdapter(val context: Context, val listTelevision: ArrayList<TvShow>) :
-    BaseAdapter() {
+class ListTelevisionAdapter(val listTelevision: ArrayList<TvShow>) :
+    RecyclerView.Adapter<ListTelevisionAdapter.ViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -19,35 +18,27 @@ class ListTelevisionAdapter(val context: Context, val listTelevision: ArrayList<
         this.onItemClickCallback = onItemClickCallback
     }
 
-    override fun getItem(i: Int): Any {
-        return listTelevision[i]
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_list_movie, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun getItemId(i: Int): Long {
-        return i.toLong()
-    }
-
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return listTelevision.size
     }
 
-    override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {
-        val viewLayout =
-            LayoutInflater.from(context).inflate(R.layout.item_list_movie, viewGroup, false)
-
-        val viewHolder = ViewHolder(viewLayout)
-        val television = getItem(i) as TvShow
-        viewHolder.bind(context, television, i)
-        return viewLayout
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(listTelevision[position], position)
     }
 
-    private inner class ViewHolder(private val view: View) {
-        fun bind(context: Context, television: TvShow, position: Int) {
+    inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(television: TvShow, position: Int) {
             with(view) {
                 tv_movie_title_item.text = television.title
                 tv_movie_desc_item.text = television.description
 
-                Glide.with(context)
+                Glide.with(view.context)
                     .load(television.poster)
                     .into(iv_movie_image_item)
             }

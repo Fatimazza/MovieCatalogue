@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
@@ -16,8 +17,8 @@ import kotlinx.android.synthetic.main.fragment_list_television.*
 
 class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback {
 
-    private val listTelevision: ListView
-        get() = lv_tvshow
+    private val listTelevision: RecyclerView
+        get() = rv_tvshow
 
     private var list: ArrayList<TvShow> = arrayListOf()
 
@@ -40,7 +41,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     private fun setupListTelevisionAdapter() {
         list.addAll(getTelevisionData())
 
-        listTelevisionAdapter = ListTelevisionAdapter(requireContext(), list)
+        listTelevision.layoutManager = LinearLayoutManager(requireContext())
+        listTelevisionAdapter = ListTelevisionAdapter(list)
         listTelevision.adapter = listTelevisionAdapter
     }
 
