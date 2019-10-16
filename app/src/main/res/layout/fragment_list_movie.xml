@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".fragment.ListMovieFragment">
 
-    <ListView
-        android:id="@+id/lv_movie"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_movie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarThumbVertical="@color/colorAccent"

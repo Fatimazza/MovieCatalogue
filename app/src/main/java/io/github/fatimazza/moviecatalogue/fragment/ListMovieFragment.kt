@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
@@ -16,8 +17,8 @@ import kotlinx.android.synthetic.main.fragment_list_movie.*
 
 class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
-    private val listMovie: ListView
-        get() = lv_movie
+    private val listMovie: RecyclerView
+        get() = rv_movie
 
     private var list: ArrayList<Movie> = arrayListOf()
 
@@ -40,7 +41,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     private fun setupListMovieAdapter() {
         list.addAll(getMoviesData())
 
-        listMovieAdapter = ListMovieAdapter(requireContext(), list)
+        listMovie.layoutManager = LinearLayoutManager(requireContext())
+        listMovieAdapter = ListMovieAdapter(list)
         listMovie.adapter = listMovieAdapter
     }
 
