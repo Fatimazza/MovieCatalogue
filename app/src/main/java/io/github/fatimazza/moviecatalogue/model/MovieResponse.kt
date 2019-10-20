@@ -1,5 +1,9 @@
 package io.github.fatimazza.moviecatalogue.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class MovieResponse(
     val adult: Boolean,
     val backdrop_path: String,
@@ -15,4 +19,4 @@ data class MovieResponse(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) : Parcelable
