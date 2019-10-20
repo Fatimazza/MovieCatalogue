@@ -1,8 +1,9 @@
 package io.github.fatimazza.moviecatalogue.network
 
 import io.github.fatimazza.moviecatalogue.BuildConfig
-import io.github.fatimazza.moviecatalogue.model.BaseResult
-import io.github.fatimazza.moviecatalogue.model.TvShowResult
+import io.github.fatimazza.moviecatalogue.model.BaseResponse
+import io.github.fatimazza.moviecatalogue.model.MovieResponse
+import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -46,10 +47,10 @@ class NetworkConfig {
                 .retryOnConnectionFailure(true)
                 .build()
         }
-    }
 
-    fun api(): MovieAPIService {
-        return getRetrofit().create(MovieAPIService::class.java)
+        fun api(): MovieAPIService {
+            return getRetrofit().create(MovieAPIService::class.java)
+        }
     }
 
 }
@@ -58,10 +59,10 @@ interface MovieAPIService {
 
     @GET("discover/tv")
     fun fetchTvShow(@Query("api_key") apiKey: String, @Query("language") language: String)
-            : Call<BaseResult<TvShowResult>>
+            : Call<BaseResponse<TvShowResponse>>
 
     @GET("discover/movie")
     fun fetchMovie(@Query("api_key") apiKey: String, @Query("language") language: String)
-            : Call<BaseResult<TvShowResult>>
+            : Call<BaseResponse<MovieResponse>>
 
 }
