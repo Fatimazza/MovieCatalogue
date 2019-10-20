@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.Movie
+import io.github.fatimazza.moviecatalogue.model.MovieResponse
+import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_list_movie.*
 
 class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
@@ -20,9 +24,9 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     private val listMovie: RecyclerView
         get() = rv_movie
 
-    private var list: ArrayList<Movie> = arrayListOf()
-
     private lateinit var listMovieAdapter: ListMovieAdapter
+
+    private lateinit var movieViewModel: MovieViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,16 +38,29 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initMovieViewModel()
         setupListMovieAdapter()
         setItemClickListener()
+        fetchMovieData()
+    }
+
+    private fun initMovieViewModel() {
+        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
     }
 
     private fun setupListMovieAdapter() {
-        list.addAll(getMoviesData())
-
         listMovie.layoutManager = LinearLayoutManager(requireContext())
-        listMovieAdapter = ListMovieAdapter(list)
+        listMovieAdapter = ListMovieAdapter()
+        listMovieAdapter.notifyDataSetChanged()
         listMovie.adapter = listMovieAdapter
+    }
+
+    private fun fetchMovieData() {
+        movieViewModel.getMovieData().observe(this, Observer { movie ->
+            if (movie != null) {
+                listMovieAdapter.setData(movie)
+            }
+        })
     }
 
     private fun getMoviesData(): ArrayList<Movie> {
@@ -72,7 +89,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         listMovieAdapter.setOnItemClickCallback(this)
     }
 
-    override fun onItemClicked(data: Movie) {
+    override fun onItemClicked(data: MovieResponse) {
         val intentMovie = Intent(requireContext(), DetailMovieActivity::class.java).apply {
             putExtra(DetailMovieActivity.EXTRA_MOVIE, data)
         }
