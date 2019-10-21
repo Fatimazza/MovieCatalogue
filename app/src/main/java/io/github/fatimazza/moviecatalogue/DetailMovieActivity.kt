@@ -6,6 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -62,6 +65,9 @@ class DetailMovieActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(BuildConfig.POSTER_BASE_URL + movie.poster_path)
+            .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+            .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+            .placeholder(R.color.colorAccent)
             .into(ivMovieImage)
     }
 

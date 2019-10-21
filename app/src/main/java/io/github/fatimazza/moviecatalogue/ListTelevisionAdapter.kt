@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
@@ -42,6 +45,9 @@ class ListTelevisionAdapter :
 
                 Glide.with(view.context)
                     .load(BuildConfig.POSTER_BASE_URL + television.poster_path)
+                    .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .placeholder(R.color.colorAccent)
                     .into(iv_movie_image_item)
             }
             view.setOnClickListener { onItemClickCallback.onItemClicked(tvShowData[position]) }
