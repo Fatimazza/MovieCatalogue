@@ -40,6 +40,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         initTvViewModel()
         setupListTelevisionAdapter()
         setItemClickListener()
+        setClickListener()
         fetchTelevisionData()
     }
 
@@ -63,6 +64,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
                 showLoading(false)
             } else {
                 showLoading(false)
+                showFailedLoad(true)
             }
         })
     }
@@ -72,6 +74,23 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
             pbLoadingTelevision.visibility = View.VISIBLE
         } else {
             pbLoadingTelevision.visibility = View.GONE
+        }
+        showFailedLoad(false)
+    }
+
+    private fun showFailedLoad(state: Boolean) {
+        if (state) {
+            llTelevisionFailed.visibility = View.VISIBLE
+            listTelevision.visibility = View.GONE
+        } else {
+            llTelevisionFailed.visibility = View.GONE
+            listTelevision.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setClickListener() {
+        btnRetryTelevision.setOnClickListener {
+            fetchTelevisionData()
         }
     }
 

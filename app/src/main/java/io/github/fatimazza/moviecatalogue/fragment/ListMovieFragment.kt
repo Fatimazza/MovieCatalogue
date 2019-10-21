@@ -40,6 +40,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         initMovieViewModel()
         setupListMovieAdapter()
         setItemClickListener()
+        setClickListener()
         fetchMovieData()
     }
 
@@ -63,6 +64,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
                 showLoading(false)
             } else {
                 showLoading(false)
+                showFailedLoad(true)
             }
         })
     }
@@ -72,6 +74,23 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
             pbLoadingMovie.visibility = View.VISIBLE
         } else {
             pbLoadingMovie.visibility = View.GONE
+        }
+        showFailedLoad(false)
+    }
+
+    private fun showFailedLoad(state: Boolean) {
+        if (state) {
+            llMovieFailed.visibility = View.VISIBLE
+            listMovie.visibility = View.GONE
+        } else {
+            llMovieFailed.visibility = View.GONE
+            listMovie.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setClickListener() {
+        btnRetryMovie.setOnClickListener {
+            fetchMovieData()
         }
     }
 
