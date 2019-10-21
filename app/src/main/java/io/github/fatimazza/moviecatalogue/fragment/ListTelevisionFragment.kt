@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
-import io.github.fatimazza.moviecatalogue.model.TvShow
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
@@ -66,28 +65,6 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
                 showLoading(false)
             }
         })
-    }
-
-    private fun getTelevisionData(): ArrayList<TvShow> {
-        val tvshowTitle = resources.getStringArray(R.array.tvshow_title)
-        val tvshowPoster = resources.obtainTypedArray(R.array.tvshow_poster)
-        val tvshowDesc = resources.getStringArray(R.array.tvshow_desc)
-        val tvshowRelease = resources.getStringArray(R.array.tvshow_release)
-        val tvshowRuntime = resources.getStringArray(R.array.tvshow_runtime)
-
-        val listTelevision = ArrayList<TvShow>()
-        for (position in tvshowTitle.indices) {
-            val television = TvShow(
-                tvshowTitle[position],
-                tvshowPoster.getResourceId(position, -1),
-                tvshowDesc[position],
-                tvshowRelease[position],
-                tvshowRuntime[position]
-            )
-            listTelevision.add(television)
-        }
-        tvshowPoster.recycle()
-        return listTelevision
     }
 
     private fun showLoading(state: Boolean) {
