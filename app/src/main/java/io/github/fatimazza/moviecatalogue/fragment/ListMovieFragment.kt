@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
-import io.github.fatimazza.moviecatalogue.model.Movie
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_list_movie.*
@@ -61,28 +60,6 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
                 listMovieAdapter.setData(movie)
             }
         })
-    }
-
-    private fun getMoviesData(): ArrayList<Movie> {
-        val movieTitle = resources.getStringArray(R.array.movie_title)
-        val moviePoster = resources.obtainTypedArray(R.array.movie_poster)
-        val movieDesc = resources.getStringArray(R.array.movie_desc)
-        val movieRelease = resources.getStringArray(R.array.movie_release)
-        val movieRuntime = resources.getStringArray(R.array.movie_runtime)
-
-        val listMovie = ArrayList<Movie>()
-        for (position in movieTitle.indices) {
-            val movie = Movie(
-                movieTitle[position],
-                moviePoster.getResourceId(position, -1),
-                movieDesc[position],
-                movieRelease[position],
-                movieRuntime[position]
-            )
-            listMovie.add(movie)
-        }
-        moviePoster.recycle()
-        return listMovie
     }
 
     private fun setItemClickListener() {
