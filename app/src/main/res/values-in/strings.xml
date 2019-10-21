@@ -3,7 +3,7 @@
 
     <string name="movie_title_dummy">Ini adalah conton Judul Film</string>
     <string name="movie_detail_release_title">Tanggal rilis:</string>
-    <string name="movie_detail_runtime_title">Durasi:</string>
+    <string name="movie_detail_rating_title">Penilaian:</string>
 
     <string name="menu_movie">Film</string>
     <string name="menu_tv_show">Acara Tv</string>

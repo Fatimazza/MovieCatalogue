@@ -4,7 +4,7 @@
     <string name="movie_title_dummy">This is The Example of Movie Title</string>
     <string name="movie_desc_dummy" translatable="false">"As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain."</string>
     <string name="movie_detail_release_title">Released date:</string>
-    <string name="movie_detail_runtime_title">Runtime:</string>
+    <string name="movie_detail_rating_title">Rating:</string>
 
     <string name="menu_movie">Movie</string>
     <string name="menu_tv_show">Tv Show</string>

@@ -25,8 +25,8 @@ class DetailMovieActivity : AppCompatActivity() {
     private val tvMovieRelease: TextView
         get() = tv_movie_release
 
-    private val tvMovieRuntime: TextView
-        get() = tv_movie_time
+    private val tvMovieRate: TextView
+        get() = tv_movie_rate
 
     private val tvMovieDescription: TextView
         get() = tv_movie_desc
@@ -57,7 +57,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun displayMovieDetail(movie: MovieResponse) {
         tvMovieTitle.text = movie.title
         tvMovieRelease.text = movie.release_date
-        tvMovieRuntime.text = movie.release_date
+        tvMovieRate.text = movie.vote_average.toString()
         tvMovieDescription.text = movie.overview
 
         Glide.with(this)
@@ -68,7 +68,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun displayTelevisionDetail(tvShow: TvShow) {
         tvMovieTitle.text = tvShow.title
         tvMovieRelease.text = tvShow.releaseDate
-        tvMovieRuntime.text = tvShow.runtime
+        tvMovieRate.text = tvShow.runtime
         tvMovieDescription.text = tvShow.description
 
         Glide.with(this)
