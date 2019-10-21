@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.TvShow
+import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
@@ -21,8 +23,6 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private val listTelevision: RecyclerView
         get() = rv_tvshow
-
-    private var list: ArrayList<TvShow> = arrayListOf()
 
     private lateinit var listTelevisionAdapter: ListTelevisionAdapter
 
@@ -41,6 +41,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         initTvViewModel()
         setupListTelevisionAdapter()
         setItemClickListener()
+        fetchTelevisionData()
     }
 
     private fun initTvViewModel() {
@@ -49,11 +50,18 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     }
 
     private fun setupListTelevisionAdapter() {
-        list.addAll(getTelevisionData())
-
         listTelevision.layoutManager = LinearLayoutManager(requireContext())
-        listTelevisionAdapter = ListTelevisionAdapter(list)
+        listTelevisionAdapter = ListTelevisionAdapter()
+        listTelevisionAdapter.notifyDataSetChanged()
         listTelevision.adapter = listTelevisionAdapter
+    }
+
+    private fun fetchTelevisionData() {
+        tvShowViewModel.getTvShowData().observe(this, Observer { tvShow ->
+            if (tvShow != null) {
+                listTelevisionAdapter.setData(tvShow)
+            }
+        })
     }
 
     private fun getTelevisionData(): ArrayList<TvShow> {
@@ -82,7 +90,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         listTelevisionAdapter.setOnItemClickCallback(this)
     }
 
-    override fun onItemClicked(data: TvShow) {
+    override fun onItemClicked(data: TvShowResponse) {
         val intentTelevision = Intent(requireContext(), DetailMovieActivity::class.java).apply {
             putExtra(DetailMovieActivity.EXTRA_TELEVISION, data)
         }

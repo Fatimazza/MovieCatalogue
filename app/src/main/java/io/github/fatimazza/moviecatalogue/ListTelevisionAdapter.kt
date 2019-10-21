@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import io.github.fatimazza.moviecatalogue.model.TvShow
+import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
-class ListTelevisionAdapter(val listTelevision: ArrayList<TvShow>) :
+class ListTelevisionAdapter :
     RecyclerView.Adapter<ListTelevisionAdapter.ViewHolder>() {
+
+    private val tvShowData = ArrayList<TvShowResponse>()
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -25,28 +27,34 @@ class ListTelevisionAdapter(val listTelevision: ArrayList<TvShow>) :
     }
 
     override fun getItemCount(): Int {
-        return listTelevision.size
+        return tvShowData.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listTelevision[position], position)
+        holder.bind(tvShowData[position], position)
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(television: TvShow, position: Int) {
+        fun bind(television: TvShowResponse, position: Int) {
             with(view) {
-                tv_movie_title_item.text = television.title
-                tv_movie_desc_item.text = television.description
+                tv_movie_title_item.text = television.name
+                tv_movie_desc_item.text = television.overview
 
                 Glide.with(view.context)
-                    .load(television.poster)
+                    .load(BuildConfig.POSTER_BASE_URL + television.poster_path)
                     .into(iv_movie_image_item)
             }
-            view.setOnClickListener { onItemClickCallback.onItemClicked(listTelevision[position]) }
+            view.setOnClickListener { onItemClickCallback.onItemClicked(tvShowData[position]) }
         }
     }
 
+    fun setData(tvShowItems: ArrayList<TvShowResponse>) {
+        tvShowData.clear()
+        tvShowData.addAll(tvShowItems)
+        notifyDataSetChanged()
+    }
+
     interface OnItemClickCallback {
-        fun onItemClicked(data: TvShow)
+        fun onItemClicked(data: TvShowResponse)
     }
 }
