@@ -7,7 +7,7 @@ import io.github.fatimazza.moviecatalogue.network.NetworkRepository
 
 class TvShowViewModel : ViewModel() {
 
-    fun getTvShowData(): MutableLiveData<ArrayList<TvShowResponse>> {
-        return NetworkRepository().getTvShow()
+    fun getTvShowData(locale: String): MutableLiveData<ArrayList<TvShowResponse>> {
+        return NetworkRepository().getTvShow(locale)
     }
 }

@@ -16,6 +16,7 @@ import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
+import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
@@ -62,7 +63,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private fun fetchTelevisionData() {
         showLoading(true)
-        tvShowViewModel.getTvShowData().observe(this, Observer { tvShow ->
+        tvShowViewModel.getTvShowData(locale.getFormattedLanguage())
+            .observe(this, Observer { tvShow ->
             if (tvShow != null) {
                 listTelevisionAdapter.setData(tvShow)
                 showLoading(false)

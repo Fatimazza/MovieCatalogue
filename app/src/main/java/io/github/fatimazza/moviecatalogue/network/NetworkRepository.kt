@@ -37,11 +37,11 @@ class NetworkRepository {
         return movieData
     }
 
-    fun getTvShow(): MutableLiveData<ArrayList<TvShowResponse>> {
+    fun getTvShow(locale: String): MutableLiveData<ArrayList<TvShowResponse>> {
         val tvShowData = MutableLiveData<ArrayList<TvShowResponse>>()
         val listTvShow = ArrayList<TvShowResponse>()
 
-        NetworkConfig.api().fetchTvShow(BuildConfig.API_KEY, "en-US")
+        NetworkConfig.api().fetchTvShow(BuildConfig.API_KEY, locale)
             .enqueue(object : Callback<BaseResponse<TvShowResponse>> {
                 override fun onFailure(call: Call<BaseResponse<TvShowResponse>>, t: Throwable) {
                     tvShowData.postValue(null)
