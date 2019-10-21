@@ -86,6 +86,14 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         return listTelevision
     }
 
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            pbLoadingTelevision.visibility = View.VISIBLE
+        } else {
+            pbLoadingTelevision.visibility = View.GONE
+        }
+    }
+
     private fun setItemClickListener() {
         listTelevisionAdapter.setOnItemClickCallback(this)
     }

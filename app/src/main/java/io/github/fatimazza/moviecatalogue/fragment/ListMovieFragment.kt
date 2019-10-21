@@ -63,6 +63,14 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         })
     }
 
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            pbLoadingMovie.visibility = View.VISIBLE
+        } else {
+            pbLoadingMovie.visibility = View.GONE
+        }
+    }
+
     private fun setItemClickListener() {
         listMovieAdapter.setOnItemClickCallback(this)
     }
