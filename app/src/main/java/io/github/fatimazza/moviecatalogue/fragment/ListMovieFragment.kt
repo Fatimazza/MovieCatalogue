@@ -16,6 +16,7 @@ import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
+import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_list_movie.*
 
@@ -62,7 +63,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     private fun fetchMovieData() {
         showLoading(true)
-        movieViewModel.getMovieData(locale).observe(this, Observer { movie ->
+        movieViewModel.getMovieData(locale.getFormattedLanguage()).observe(this, Observer { movie ->
             if (movie != null) {
                 listMovieAdapter.setData(movie)
                 showLoading(false)
