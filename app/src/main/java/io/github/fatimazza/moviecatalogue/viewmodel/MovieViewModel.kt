@@ -7,7 +7,7 @@ import io.github.fatimazza.moviecatalogue.network.NetworkRepository
 
 class MovieViewModel : ViewModel() {
 
-    fun getMovieData(): MutableLiveData<ArrayList<MovieResponse>> {
-        return NetworkRepository().getMovies()
+    fun getMovieData(locale: String): MutableLiveData<ArrayList<MovieResponse>> {
+        return NetworkRepository().getMovies(locale)
     }
 }

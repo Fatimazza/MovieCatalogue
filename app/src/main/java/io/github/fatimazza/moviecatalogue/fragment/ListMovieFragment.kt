@@ -62,7 +62,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     private fun fetchMovieData() {
         showLoading(true)
-        movieViewModel.getMovieData().observe(this, Observer { movie ->
+        movieViewModel.getMovieData(locale).observe(this, Observer { movie ->
             if (movie != null) {
                 listMovieAdapter.setData(movie)
                 showLoading(false)
@@ -118,6 +118,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         if (!locale.equals(newConfig.locale.toLanguageTag(), true)) {
             setLanguage()
             activity?.recreate()
+            fetchMovieData()
         }
     }
 }

@@ -11,11 +11,11 @@ import retrofit2.Response
 
 class NetworkRepository {
 
-    fun getMovies(): MutableLiveData<ArrayList<MovieResponse>> {
+    fun getMovies(locale: String): MutableLiveData<ArrayList<MovieResponse>> {
         val movieData = MutableLiveData<ArrayList<MovieResponse>>()
         val listMovie = ArrayList<MovieResponse>()
 
-        NetworkConfig.api().fetchMovie(BuildConfig.API_KEY, "en-US")
+        NetworkConfig.api().fetchMovie(BuildConfig.API_KEY, locale)
             .enqueue(object : Callback<BaseResponse<MovieResponse>> {
                 override fun onFailure(call: Call<BaseResponse<MovieResponse>>, t: Throwable) {
                     movieData.postValue(null)
