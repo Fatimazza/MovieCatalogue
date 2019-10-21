@@ -57,9 +57,13 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     }
 
     private fun fetchTelevisionData() {
+        showLoading(true)
         tvShowViewModel.getTvShowData().observe(this, Observer { tvShow ->
             if (tvShow != null) {
                 listTelevisionAdapter.setData(tvShow)
+                showLoading(false)
+            } else {
+                showLoading(false)
             }
         })
     }

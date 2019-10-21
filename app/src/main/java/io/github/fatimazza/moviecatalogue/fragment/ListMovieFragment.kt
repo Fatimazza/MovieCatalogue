@@ -56,9 +56,13 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     }
 
     private fun fetchMovieData() {
+        showLoading(true)
         movieViewModel.getMovieData().observe(this, Observer { movie ->
             if (movie != null) {
                 listMovieAdapter.setData(movie)
+                showLoading(false)
+            } else {
+                showLoading(false)
             }
         })
     }
