@@ -9,6 +9,8 @@
     <string name="menu_movie">Movie</string>
     <string name="menu_tv_show">Tv Show</string>
     <string name="menu_settings">Settings</string>
+    <string name="list_load_failed">Load failed.</string>
+    <string name="list_retry_button">Retry</string>
 
     <string-array name="movie_title">
         <item>Avengers: Endgame</item>
