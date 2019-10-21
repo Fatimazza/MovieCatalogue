@@ -4,7 +4,6 @@ package io.github.fatimazza.moviecatalogue.fragment
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +28,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     private lateinit var movieViewModel: MovieViewModel
 
+    private lateinit var locale: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +40,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLanguage()
         initMovieViewModel()
         setupListMovieAdapter()
         setItemClickListener()
@@ -107,8 +109,15 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         startActivity(intentMovie)
     }
 
+    private fun setLanguage() {
+        locale = resources.configuration.locale.toLanguageTag()
+    }
+
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d("Izza", "- - config Movie Changed")
+        if (!locale.equals(newConfig.locale.toLanguageTag(), true)) {
+            setLanguage()
+            activity?.recreate()
+        }
     }
 }
