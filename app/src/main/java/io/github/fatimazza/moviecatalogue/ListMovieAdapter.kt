@@ -40,7 +40,8 @@ class ListMovieAdapter() :
         fun bind(movie: MovieResponse, position: Int) {
             with(view) {
                 tv_movie_title_item.text = movie.title
-                tv_movie_desc_item.text = movie.overview
+                tv_movie_desc_item.text = if (movie.overview.isEmpty())
+                    context.getString(R.string.list_movie_description_empty) else movie.overview
 
                 Glide.with(view.context)
                     .load(BuildConfig.POSTER_BASE_URL + movie.poster_path)

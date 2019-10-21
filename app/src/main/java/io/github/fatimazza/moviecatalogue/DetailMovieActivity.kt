@@ -61,7 +61,8 @@ class DetailMovieActivity : AppCompatActivity() {
         tvMovieTitle.text = movie.title
         tvMovieRelease.text = movie.release_date
         tvMovieRate.text = movie.vote_average.toString()
-        tvMovieDescription.text = movie.overview
+        tvMovieDescription.text = if (movie.overview.isEmpty())
+            getString(R.string.list_movie_description_empty) else movie.overview
 
         Glide.with(this)
             .load(BuildConfig.POSTER_BASE_URL + movie.poster_path)
@@ -75,7 +76,8 @@ class DetailMovieActivity : AppCompatActivity() {
         tvMovieTitle.text = tvShow.name
         tvMovieRelease.text = tvShow.first_air_date
         tvMovieRate.text = tvShow.vote_average.toString()
-        tvMovieDescription.text = tvShow.overview
+        tvMovieDescription.text = if (tvShow.overview.isEmpty())
+            getString(R.string.list_movie_description_empty) else tvShow.overview
 
         Glide.with(this)
             .load(BuildConfig.POSTER_BASE_URL + tvShow.poster_path)

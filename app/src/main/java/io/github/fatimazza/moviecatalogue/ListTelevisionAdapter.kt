@@ -41,7 +41,8 @@ class ListTelevisionAdapter :
         fun bind(television: TvShowResponse, position: Int) {
             with(view) {
                 tv_movie_title_item.text = television.name
-                tv_movie_desc_item.text = television.overview
+                tv_movie_desc_item.text = if (television.overview.isEmpty())
+                    context.getString(R.string.list_movie_description_empty) else television.overview
 
                 Glide.with(view.context)
                     .load(BuildConfig.POSTER_BASE_URL + television.poster_path)
