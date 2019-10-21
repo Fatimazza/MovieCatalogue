@@ -7,14 +7,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
-import io.github.fatimazza.moviecatalogue.model.TvShow
+import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
     private var movie = MovieResponse()
 
-    private var television = TvShow()
+    private var television = TvShowResponse()
 
     private val ivMovieImage: ImageView
         get() = iv_movie_image
@@ -65,14 +65,14 @@ class DetailMovieActivity : AppCompatActivity() {
             .into(ivMovieImage)
     }
 
-    private fun displayTelevisionDetail(tvShow: TvShow) {
-        tvMovieTitle.text = tvShow.title
-        tvMovieRelease.text = tvShow.releaseDate
-        tvMovieRate.text = tvShow.runtime
-        tvMovieDescription.text = tvShow.description
+    private fun displayTelevisionDetail(tvShow: TvShowResponse) {
+        tvMovieTitle.text = tvShow.name
+        tvMovieRelease.text = tvShow.first_air_date
+        tvMovieRate.text = tvShow.vote_average.toString()
+        tvMovieDescription.text = tvShow.overview
 
         Glide.with(this)
-            .load(tvShow.poster)
+            .load(BuildConfig.POSTER_BASE_URL + tvShow.poster_path)
             .into(ivMovieImage)
     }
 
