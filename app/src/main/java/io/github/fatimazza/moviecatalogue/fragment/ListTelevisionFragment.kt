@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.ListTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.TvShow
+import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
 class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback {
@@ -24,6 +26,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private lateinit var listTelevisionAdapter: ListTelevisionAdapter
 
+    private lateinit var tvShowViewModel: TvShowViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +38,14 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initTvViewModel()
         setupListTelevisionAdapter()
         setItemClickListener()
+    }
+
+    private fun initTvViewModel() {
+        tvShowViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(TvShowViewModel::class.java)
     }
 
     private fun setupListTelevisionAdapter() {
