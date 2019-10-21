@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
@@ -44,7 +44,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     }
 
     private fun initMovieViewModel() {
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
+        movieViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(MovieViewModel::class.java)
     }
 
     private fun setupListMovieAdapter() {
