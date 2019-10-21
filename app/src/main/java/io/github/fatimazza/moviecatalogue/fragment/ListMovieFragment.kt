@@ -2,7 +2,9 @@ package io.github.fatimazza.moviecatalogue.fragment
 
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -105,4 +107,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         startActivity(intentMovie)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d("Izza", "- - config Movie Changed")
+    }
 }
