@@ -31,6 +31,10 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private lateinit var locale: String
 
+    companion object {
+        private const val STATE_LIST_TV = "state_list_tv"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +50,24 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         setupListTelevisionAdapter()
         setItemClickListener()
         setClickListener()
-        fetchTelevisionData()
+
+        if (savedInstanceState == null) {
+            fetchTelevisionData()
+        } else {
+            val stateList = savedInstanceState.getParcelableArrayList<TvShowResponse>(STATE_LIST_TV)
+            if (stateList != null) {
+                if (stateList.isNotEmpty()) {
+                    listTelevisionAdapter.setData(stateList)
+                } else {
+                    showFailedLoad(true)
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(STATE_LIST_TV, listTelevisionAdapter.getData())
     }
 
     private fun initTvViewModel() {

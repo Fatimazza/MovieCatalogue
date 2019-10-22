@@ -61,6 +61,8 @@ class ListTelevisionAdapter :
         notifyDataSetChanged()
     }
 
+    fun getData(): ArrayList<TvShowResponse> = tvShowData
+
     interface OnItemClickCallback {
         fun onItemClicked(data: TvShowResponse)
     }

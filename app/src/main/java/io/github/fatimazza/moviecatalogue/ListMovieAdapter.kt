@@ -60,6 +60,8 @@ class ListMovieAdapter() :
         notifyDataSetChanged()
     }
 
+    fun getData(): ArrayList<MovieResponse> = movieData
+
     interface OnItemClickCallback {
         fun onItemClicked(data: MovieResponse)
     }
