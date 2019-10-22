@@ -12,19 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        
-        <receiver
-            android:name=".receiver.LocaleChangedReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".service.LocaleChangedService"
-            android:exported="false" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -37,6 +24,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        
     </application>
 
 </manifest>
