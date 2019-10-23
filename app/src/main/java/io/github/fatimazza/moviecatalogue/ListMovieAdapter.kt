@@ -5,11 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import io.github.fatimazza.moviecatalogue.model.Movie
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
-class ListMovieAdapter(val listMovie: ArrayList<Movie>) :
+class ListMovieAdapter() :
     RecyclerView.Adapter<ListMovieAdapter.ViewHolder>() {
+
+    private val movieData = ArrayList<MovieResponse>()
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -24,28 +29,40 @@ class ListMovieAdapter(val listMovie: ArrayList<Movie>) :
     }
 
     override fun getItemCount(): Int {
-        return listMovie.size
+        return movieData.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listMovie[position], position)
+        holder.bind(movieData[position], position)
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(movie: Movie, position: Int) {
+        fun bind(movie: MovieResponse, position: Int) {
             with(view) {
                 tv_movie_title_item.text = movie.title
-                tv_movie_desc_item.text = movie.description
+                tv_movie_desc_item.text = if (movie.overview.isEmpty())
+                    context.getString(R.string.list_movie_description_empty) else movie.overview
 
                 Glide.with(view.context)
-                    .load(movie.poster)
+                    .load(BuildConfig.POSTER_BASE_URL + movie.poster_path)
+                    .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .placeholder(R.color.colorAccent)
                     .into(iv_movie_image_item)
             }
-            view.setOnClickListener { onItemClickCallback.onItemClicked(listMovie[position]) }
+            view.setOnClickListener { onItemClickCallback.onItemClicked(movieData[position]) }
         }
     }
 
+    fun setData(movieItems: ArrayList<MovieResponse>) {
+        movieData.clear()
+        movieData.addAll(movieItems)
+        notifyDataSetChanged()
+    }
+
+    fun getData(): ArrayList<MovieResponse> = movieData
+
     interface OnItemClickCallback {
-        fun onItemClicked(data: Movie)
+        fun onItemClicked(data: MovieResponse)
     }
 }

@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/iv_movie_image"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/poster_avengerinfinity"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/movie_detail_runtime_title"
+            android:text="@string/movie_detail_rating_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             app:layout_constrainedWidth="true"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_movie_release" />
 
         <TextView
-            android:id="@+id/tv_movie_time"
+            android:id="@+id/tv_movie_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

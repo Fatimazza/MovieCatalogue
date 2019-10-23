@@ -1,6 +1,9 @@
 package io.github.fatimazza.moviecatalogue
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
@@ -17,11 +20,24 @@ class MainActivity : AppCompatActivity() {
     private val bottomNavigation: BottomNavigationView
         get() = nav_view_main
 
+    private lateinit var localeChangedReceiver: BroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        createLocaleChangedReceiver()
         setupBottomNavigation(savedInstanceState)
+    }
+
+    private fun createLocaleChangedReceiver() {
+        localeChangedReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                recreate()
+            }
+        }
+        val localeChangedIntentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
+        registerReceiver(localeChangedReceiver, localeChangedIntentFilter)
     }
 
     private fun setupBottomNavigation(savedInstanceState: Bundle?) {
@@ -66,5 +82,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentSettings)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(localeChangedReceiver)
     }
 }

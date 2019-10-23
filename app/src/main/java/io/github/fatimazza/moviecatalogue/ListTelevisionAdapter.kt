@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import io.github.fatimazza.moviecatalogue.model.TvShow
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
-class ListTelevisionAdapter(val listTelevision: ArrayList<TvShow>) :
+class ListTelevisionAdapter :
     RecyclerView.Adapter<ListTelevisionAdapter.ViewHolder>() {
+
+    private val tvShowData = ArrayList<TvShowResponse>()
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -25,28 +30,40 @@ class ListTelevisionAdapter(val listTelevision: ArrayList<TvShow>) :
     }
 
     override fun getItemCount(): Int {
-        return listTelevision.size
+        return tvShowData.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listTelevision[position], position)
+        holder.bind(tvShowData[position], position)
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(television: TvShow, position: Int) {
+        fun bind(television: TvShowResponse, position: Int) {
             with(view) {
-                tv_movie_title_item.text = television.title
-                tv_movie_desc_item.text = television.description
+                tv_movie_title_item.text = television.name
+                tv_movie_desc_item.text = if (television.overview.isEmpty())
+                    context.getString(R.string.list_movie_description_empty) else television.overview
 
                 Glide.with(view.context)
-                    .load(television.poster)
+                    .load(BuildConfig.POSTER_BASE_URL + television.poster_path)
+                    .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
+                    .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .placeholder(R.color.colorAccent)
                     .into(iv_movie_image_item)
             }
-            view.setOnClickListener { onItemClickCallback.onItemClicked(listTelevision[position]) }
+            view.setOnClickListener { onItemClickCallback.onItemClicked(tvShowData[position]) }
         }
     }
 
+    fun setData(tvShowItems: ArrayList<TvShowResponse>) {
+        tvShowData.clear()
+        tvShowData.addAll(tvShowItems)
+        notifyDataSetChanged()
+    }
+
+    fun getData(): ArrayList<TvShowResponse> = tvShowData
+
     interface OnItemClickCallback {
-        fun onItemClicked(data: TvShow)
+        fun onItemClicked(data: TvShowResponse)
     }
 }
