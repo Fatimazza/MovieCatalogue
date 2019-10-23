@@ -33,7 +33,22 @@ class MainActivity : AppCompatActivity() {
     private fun createLocaleChangedReceiver() {
         localeChangedReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
+                recreate()
 
+                when (bottomNavigation.selectedItemId) {
+                    R.id.navigation_movie -> {
+                        val fragment = ListMovieFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
+                            .commitAllowingStateLoss()
+                    }
+                    R.id.navigation_tvshow -> {
+                        val fragment = ListTelevisionFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
+                            .commitAllowingStateLoss()
+                    }
+                }
             }
         }
         val localeChangedIntentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
