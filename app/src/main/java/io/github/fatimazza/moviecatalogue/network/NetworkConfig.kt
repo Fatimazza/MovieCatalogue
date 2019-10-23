@@ -20,7 +20,7 @@ class NetworkConfig {
         @Volatile
         private var retrofit: Retrofit? = null
 
-        fun getRetrofit(): Retrofit {
+        private fun getRetrofit(): Retrofit {
             return retrofit ?: synchronized(this) {
                 retrofit ?: buildRetrofit().also {
                     retrofit = it

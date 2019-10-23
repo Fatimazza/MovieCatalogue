@@ -11,7 +11,7 @@ import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
-class ListMovieAdapter() :
+class ListMovieAdapter :
     RecyclerView.Adapter<ListMovieAdapter.ViewHolder>() {
 
     private val movieData = ArrayList<MovieResponse>()
