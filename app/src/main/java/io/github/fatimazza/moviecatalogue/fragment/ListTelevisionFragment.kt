@@ -31,6 +31,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     private lateinit var locale: String
 
     companion object {
+        private const val STATE_LOCALE = "state_locale"
         private const val STATE_LIST_TV = "state_list_tv"
     }
 
@@ -53,12 +54,18 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         if (savedInstanceState == null) {
             fetchTelevisionData()
         } else {
-            val stateList = savedInstanceState.getParcelableArrayList<TvShowResponse>(STATE_LIST_TV)
-            if (stateList != null) {
-                if (stateList.isNotEmpty()) {
-                    listTelevisionAdapter.setData(stateList)
-                } else {
-                    showFailedLoad(true)
+            val stateLocale = savedInstanceState.getString(STATE_LOCALE)
+            if (stateLocale != locale) {
+                fetchTelevisionData()
+            } else {
+                val stateList =
+                    savedInstanceState.getParcelableArrayList<TvShowResponse>(STATE_LIST_TV)
+                if (stateList != null) {
+                    if (stateList.isNotEmpty()) {
+                        listTelevisionAdapter.setData(stateList)
+                    } else {
+                        showFailedLoad(true)
+                    }
                 }
             }
         }
@@ -67,6 +74,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE_LIST_TV, listTelevisionAdapter.getData())
+        outState.putString(STATE_LOCALE, locale)
     }
 
     private fun initTvViewModel() {

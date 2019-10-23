@@ -31,6 +31,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     private lateinit var locale: String
 
     companion object {
+        private const val STATE_LOCALE = "state_locale"
         private const val STATE_LIST_MOVIE = "state_list_movie"
     }
 
@@ -53,13 +54,18 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         if (savedInstanceState == null) {
             fetchMovieData()
         } else {
-            val stateList =
-                savedInstanceState.getParcelableArrayList<MovieResponse>(STATE_LIST_MOVIE)
-            if (stateList != null) {
-                if (stateList.isNotEmpty()) {
-                    listMovieAdapter.setData(stateList)
-                } else {
-                    showFailedLoad(true)
+            val stateLocale = savedInstanceState.getString(STATE_LOCALE)
+            if (stateLocale != locale) {
+                fetchMovieData()
+            } else {
+                val stateList =
+                    savedInstanceState.getParcelableArrayList<MovieResponse>(STATE_LIST_MOVIE)
+                if (stateList != null) {
+                    if (stateList.isNotEmpty()) {
+                        listMovieAdapter.setData(stateList)
+                    } else {
+                        showFailedLoad(true)
+                    }
                 }
             }
         }
@@ -68,6 +74,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE_LIST_MOVIE, listMovieAdapter.getData())
+        outState.putString(STATE_LOCALE, locale)
     }
 
     private fun initMovieViewModel() {
