@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -34,6 +35,10 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private val tvMovieDescription: TextView
         get() = tv_movie_desc
+
+    private var menuItem: Menu? = null
+
+    private var isFavorited: Boolean = false
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
@@ -87,7 +92,18 @@ class DetailMovieActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
+        menuItem = menu
+        setFavoriteIcon()
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun setFavoriteIcon() {
+        if (isFavorited)
+            menuItem?.getItem(0)?.icon =
+                ContextCompat.getDrawable(this, R.drawable.ic_favorited)
+        else
+            menuItem?.getItem(0)?.icon =
+                ContextCompat.getDrawable(this, R.drawable.ic_favorite)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -97,6 +113,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 true
             }
             R.id.action_favorite -> {
+                isFavorited = !isFavorited
+                setFavoriteIcon()
                 true
             }
             else -> true
