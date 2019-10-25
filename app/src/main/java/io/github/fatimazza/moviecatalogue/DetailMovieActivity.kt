@@ -1,6 +1,7 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -84,10 +85,18 @@ class DetailMovieActivity : AppCompatActivity() {
             .into(ivMovieImage)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+                true
+            }
+            R.id.action_favorite -> {
                 true
             }
             else -> true

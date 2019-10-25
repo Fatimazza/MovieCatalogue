@@ -8,6 +8,7 @@
     <string name="menu_movie">Film</string>
     <string name="menu_tv_show">Acara Tv</string>
     <string name="menu_settings">Pengaturan</string>
+    <string name="menu_favorite">Favorit</string>
     <string name="list_load_failed">Gagal memuat.</string>
     <string name="list_retry_button">Coba Lagi</string>
     <string name="list_movie_description_empty">Belum ada deskripsi.</string>
