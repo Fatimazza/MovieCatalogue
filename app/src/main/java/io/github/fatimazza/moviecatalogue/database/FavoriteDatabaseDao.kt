@@ -28,10 +28,10 @@ interface FavoriteDatabaseDao {
     fun clearFavTvShow()
 
     @Query("SELECT * FROM fav_movie_table ORDER BY favMovieId DESC")
-    fun getAllMovies(): LiveData<ArrayList<FavoriteMovie>>
+    fun getAllMovies(): LiveData<List<FavoriteMovie>>
 
     @Query("SELECT * FROM fav_tv_table ORDER BY favTvId DESC")
-    fun getAllTvShows(): LiveData<ArrayList<FavoriteTv>>
+    fun getAllTvShows(): LiveData<List<FavoriteTv>>
 
     //get a specific movie based on its key
     @Query("SELECT * from fav_movie_table WHERE favMovieId = :key")
