@@ -11,14 +11,14 @@ data class FavoriteTv(
     var favTvId: Long = 0L,
 
     @ColumnInfo(name = "tvId")
-    val tvId: String = "",
+    var tvId: String = "",
 
     @ColumnInfo(name = "tvTitle")
-    val tvTitle: String = "",
+    var tvTitle: String = "",
 
     @ColumnInfo(name = "tvOverview")
-    val tvOverview: String = "",
+    var tvOverview: String = "",
 
     @ColumnInfo(name = "tvVoteAverage")
-    val tvVoteAverage: String = ""
+    var tvVoteAverage: String = ""
 )

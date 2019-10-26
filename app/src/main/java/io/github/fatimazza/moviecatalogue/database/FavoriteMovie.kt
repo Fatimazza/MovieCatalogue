@@ -11,14 +11,14 @@ data class FavoriteMovie(
     var favMovieId: Long = 0L,
 
     @ColumnInfo(name = "movieId")
-    val movieId: String = "",
+    var movieId: String = "",
 
     @ColumnInfo(name = "movieTitle")
-    val movieTitle: String = "",
+    var movieTitle: String = "",
 
     @ColumnInfo(name = "movieOverview")
-    val movieOverview: String = "",
+    var movieOverview: String = "",
 
     @ColumnInfo(name = "movieVoteAverage")
-    val movieVoteAverage: String = ""
+    var movieVoteAverage: String = ""
 )
