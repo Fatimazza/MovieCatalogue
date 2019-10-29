@@ -16,16 +16,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
 import io.github.fatimazza.moviecatalogue.database.FavoriteTv
-import io.github.fatimazza.moviecatalogue.model.MovieResponse
-import io.github.fatimazza.moviecatalogue.model.TvShowResponse
+import io.github.fatimazza.moviecatalogue.viewmodel.DetailViewModel
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 
 class DetailMovieActivity : AppCompatActivity() {
-
-    private var movie = MovieResponse()
-
-    private var television = TvShowResponse()
 
     private val ivMovieImage: ImageView
         get() = iv_movie_image
@@ -48,7 +43,19 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private var isMovie: Boolean = false
 
+    private var detailId: String = ""
+
+    private lateinit var locale: String
+
     private lateinit var favoriteViewModel: FavoriteViewModel
+
+    private lateinit var detailViewModel: DetailViewModel
+
+    private var detailTitle: String = ""
+    private var detailOverview: String = ""
+    private var detailReleaseDate: String = ""
+    private var detailVoteAverage: String = ""
+    private var detailPosterPath: String = ""
 
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
@@ -62,49 +69,87 @@ class DetailMovieActivity : AppCompatActivity() {
         getIntentExtra()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        setLanguage()
         initViewModel()
+        fetchDetails()
     }
 
     private fun initViewModel() {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(DetailViewModel::class.java)
     }
 
     private fun getIntentExtra() {
         if (intent.hasExtra(EXTRA_MOVIE)) {
             isMovie = true
-            movie = intent.getParcelableExtra(EXTRA_MOVIE)
-            displayMovieDetail(movie)
+            detailId = intent.getStringExtra(EXTRA_MOVIE) ?: ""
         } else if (intent.hasExtra(EXTRA_TELEVISION)) {
             isMovie = false
-            television = intent.getParcelableExtra(EXTRA_TELEVISION)
-            displayTelevisionDetail(television)
+            detailId = intent.getStringExtra(EXTRA_TELEVISION) ?: ""
         }
     }
 
-    private fun displayMovieDetail(movie: MovieResponse) {
-        tvMovieTitle.text = movie.title
-        tvMovieRelease.text = movie.release_date
-        tvMovieRate.text = movie.vote_average.toString()
-        tvMovieDescription.text = if (movie.overview.isEmpty())
-            getString(R.string.list_movie_description_empty) else movie.overview
+    private fun setLanguage() {
+        locale = resources.configuration.locale.toLanguageTag()
+    }
+
+    private fun fetchDetails() {
+        if (isMovie) {
+            detailViewModel.getMovieDetail(Integer.valueOf(detailId), locale)
+                .observe(this, Observer { movieDetail ->
+                    if (movieDetail != null) {
+                        populateDetails(
+                            movieDetail.title,
+                            movieDetail.overview,
+                            movieDetail.release_date,
+                            movieDetail.vote_average.toString(),
+                            movieDetail.poster_path
+                        )
+                    } else {
+
+                    }
+                })
+        } else {
+            detailViewModel.getTelevisionDetail(Integer.valueOf(detailId), locale).observe(
+                this, Observer { tvDetail ->
+                    if (tvDetail != null) {
+                        populateDetails(
+                            tvDetail.name,
+                            tvDetail.overview,
+                            tvDetail.first_air_date,
+                            tvDetail.vote_average.toString(),
+                            tvDetail.poster_path
+                        )
+                    } else {
+
+                    }
+                }
+            )
+        }
+    }
+
+    private fun populateDetails(
+        title: String, overview: String, releaseDate: String,
+        voteAverage: String, posterPath: String
+    ) {
+        detailTitle = title
+        detailOverview = if (overview.isEmpty())
+            getString(R.string.list_movie_description_empty) else overview
+        detailReleaseDate = releaseDate
+        detailVoteAverage = voteAverage
+        detailPosterPath = posterPath
+
+        tvMovieTitle.text = detailTitle
+        tvMovieDescription.text = detailOverview
+        tvMovieRelease.text = detailReleaseDate
+        tvMovieRate.text = detailVoteAverage
 
         Glide.with(this)
-            .load(BuildConfig.POSTER_BASE_URL + movie.poster_path)
+            .load(BuildConfig.POSTER_BASE_URL + detailPosterPath)
             .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
             .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
             .placeholder(R.color.colorAccent)
-            .into(ivMovieImage)
-    }
-
-    private fun displayTelevisionDetail(tvShow: TvShowResponse) {
-        tvMovieTitle.text = tvShow.name
-        tvMovieRelease.text = tvShow.first_air_date
-        tvMovieRate.text = tvShow.vote_average.toString()
-        tvMovieDescription.text = if (tvShow.overview.isEmpty())
-            getString(R.string.list_movie_description_empty) else tvShow.overview
-
-        Glide.with(this)
-            .load(BuildConfig.POSTER_BASE_URL + tvShow.poster_path)
             .into(ivMovieImage)
     }
 
@@ -171,22 +216,24 @@ class DetailMovieActivity : AppCompatActivity() {
             favoriteViewModel.insertMovie(
                 FavoriteMovie(
                     0,
-                    movie.id.toString(),
-                    movie.title,
-                    movie.overview,
-                    movie.vote_average.toString(),
-                    movie.poster_path
+                    detailId,
+                    detailTitle,
+                    detailOverview,
+                    detailVoteAverage,
+                    detailReleaseDate,
+                    detailPosterPath
                 )
             )
         } else {
             favoriteViewModel.insertTvShow(
                 FavoriteTv(
                     0,
-                    television.id.toString(),
-                    television.name,
-                    television.overview,
-                    television.vote_average.toString(),
-                    television.poster_path
+                    detailId,
+                    detailTitle,
+                    detailOverview,
+                    detailVoteAverage,
+                    detailReleaseDate,
+                    detailPosterPath
                 )
             )
         }
@@ -195,11 +242,11 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun removeFromFavorite() {
         if (isMovie) {
             favoriteViewModel.deleteMovie(
-                movie.id.toLong()
+                detailId.toLong()
             )
         } else {
             favoriteViewModel.deleteTvShow(
-                television.id.toLong()
+                detailId.toLong()
             )
         }
     }

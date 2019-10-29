@@ -134,7 +134,7 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     override fun onItemClicked(data: TvShowResponse) {
         val intentTelevision = Intent(requireContext(), DetailMovieActivity::class.java).apply {
-            putExtra(DetailMovieActivity.EXTRA_TELEVISION, data)
+            putExtra(DetailMovieActivity.EXTRA_TELEVISION, data.id.toString())
         }
         startActivity(intentTelevision)
     }

@@ -133,7 +133,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     override fun onItemClicked(data: MovieResponse) {
         val intentMovie = Intent(requireContext(), DetailMovieActivity::class.java).apply {
-            putExtra(DetailMovieActivity.EXTRA_MOVIE, data)
+            putExtra(DetailMovieActivity.EXTRA_MOVIE, data.id.toString())
         }
         startActivity(intentMovie)
     }
