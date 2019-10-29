@@ -1,5 +1,6 @@
 package io.github.fatimazza.moviecatalogue.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.FavoriteMovieAdapter
+import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 
 
-class FavoriteMovieFragment : Fragment() {
+class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallback {
 
     private val listFavMovie: RecyclerView
         get() = rv_fav_movie
@@ -36,6 +39,7 @@ class FavoriteMovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initFavoriteMovieViewModel()
         setupListFavoriteMovieAdapter()
+        setItemClickListener()
         fetchFavoriteMovieData()
     }
 
@@ -56,5 +60,16 @@ class FavoriteMovieFragment : Fragment() {
                 listFavMovieAdapter.setData(listMovie)
             }
         })
+    }
+
+    private fun setItemClickListener() {
+        listFavMovieAdapter.setOnItemClickCallback(this)
+    }
+
+    override fun onItemClicked(data: FavoriteMovie) {
+        val intentMovie = Intent(requireContext(), DetailMovieActivity::class.java).apply {
+            putExtra(DetailMovieActivity.EXTRA_MOVIE, data.movieId)
+        }
+        startActivity(intentMovie)
     }
 }
