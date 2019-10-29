@@ -22,6 +22,9 @@ data class FavoriteTv(
     @ColumnInfo(name = "tvVoteAverage")
     var tvVoteAverage: String = "",
 
+    @ColumnInfo(name = "tvReleaseDate")
+    var tvReleaseDate: String = "",
+
     @ColumnInfo(name = "tvPosterPath")
     var tvPosterPath: String = ""
 )

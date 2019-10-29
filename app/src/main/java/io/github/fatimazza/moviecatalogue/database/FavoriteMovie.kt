@@ -22,6 +22,9 @@ data class FavoriteMovie(
     @ColumnInfo(name = "movieVoteAverage")
     var movieVoteAverage: String = "",
 
+    @ColumnInfo(name = "movieReleaseDate")
+    var movieReleaseDate: String = "",
+
     @ColumnInfo(name = "moviePosterPath")
     var moviePosterPath: String = ""
 )
