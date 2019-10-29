@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
-import io.github.fatimazza.moviecatalogue.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.R
+import io.github.fatimazza.moviecatalogue.adapter.ListMovieAdapter
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel

@@ -1,4 +1,4 @@
-package io.github.fatimazza.moviecatalogue
+package io.github.fatimazza.moviecatalogue.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import io.github.fatimazza.moviecatalogue.BuildConfig
+import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import kotlinx.android.synthetic.main.item_list_movie.view.*
 
