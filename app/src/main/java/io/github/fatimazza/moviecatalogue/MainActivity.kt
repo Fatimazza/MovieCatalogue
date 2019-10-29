@@ -59,6 +59,9 @@ class MainActivity : AppCompatActivity() {
                             .commit()
                         return true
                     }
+                    R.id.navigation_favorite -> {
+
+                    }
                     R.id.navigation_tvshow -> {
                         fragment = ListTelevisionFragment()
                         supportFragmentManager.beginTransaction()

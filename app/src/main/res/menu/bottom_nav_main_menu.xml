@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_movie" />
 
     <item
+        android:id="@+id/navigation_favorite"
+        android:title="@string/menu_favorite"
+        android:icon="@drawable/ic_favorites" />
+
+    <item
         android:id="@+id/navigation_tvshow"
         android:title="@string/menu_tv_show"
         android:icon="@drawable/ic_television" />
