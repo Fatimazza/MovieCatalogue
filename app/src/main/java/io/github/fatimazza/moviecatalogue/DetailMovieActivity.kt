@@ -173,7 +173,9 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun removeFromFavorite() {
         if (isMovie) {
-            Log.d("Izza", "Remove item from db Favorite")
+            favoriteViewModel.deleteMovie(
+                movie.id.toLong()
+            )
         }
     }
 }

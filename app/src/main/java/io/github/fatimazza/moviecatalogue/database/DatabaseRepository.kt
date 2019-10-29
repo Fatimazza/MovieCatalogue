@@ -9,4 +9,8 @@ class DatabaseRepository(private val favMovieDao: FavoriteDatabaseDao) {
     suspend fun insertMovie(movie: FavoriteMovie) {
         favMovieDao.insertMovie(movie)
     }
+
+    suspend fun deleteMovie(id: Long) {
+        favMovieDao.deleteFavMovie(id)
+    }
 }

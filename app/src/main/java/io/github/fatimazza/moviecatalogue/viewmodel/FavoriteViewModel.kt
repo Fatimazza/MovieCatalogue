@@ -29,7 +29,14 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     fun insertMovie(movie: FavoriteMovie) {
         GlobalScope.launch {
             repository.insertMovie(movie)
-            Log.d("Izza", "Movie ${movie.movieTitle} - - INSERTED")
+            Log.d("Izza", "Movie ${movie.movieTitle} ${movie.movieId} - - INSERTED")
+        }
+    }
+
+    fun deleteMovie(movieId: Long) {
+        GlobalScope.launch {
+            repository.deleteMovie(movieId)
+            Log.d("Izza", "Movie ${movieId} - - DELETED")
         }
     }
 }
