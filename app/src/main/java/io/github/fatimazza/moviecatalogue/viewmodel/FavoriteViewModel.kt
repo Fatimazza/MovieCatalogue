@@ -17,8 +17,8 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     val allFavMovies: LiveData<List<FavoriteMovie>>
 
     init {
-        val favMovieDao = FavoriteDatabase.getInstance(application).favoriteDatabaseDao
-        repository = DatabaseRepository(favMovieDao)
+        val favDatabaseDao = FavoriteDatabase.getInstance(application).favoriteDatabaseDao
+        repository = DatabaseRepository(favDatabaseDao)
         allFavMovies = repository.allFavMovies
     }
 
