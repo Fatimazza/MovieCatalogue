@@ -20,5 +20,8 @@ data class FavoriteMovie(
     var movieOverview: String = "",
 
     @ColumnInfo(name = "movieVoteAverage")
-    var movieVoteAverage: String = ""
+    var movieVoteAverage: String = "",
+
+    @ColumnInfo(name = "moviePosterPath")
+    var moviePosterPath: String = ""
 )

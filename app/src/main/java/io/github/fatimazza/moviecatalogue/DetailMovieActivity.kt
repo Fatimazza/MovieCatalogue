@@ -174,7 +174,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     movie.id.toString(),
                     movie.title,
                     movie.overview,
-                    movie.vote_average.toString()
+                    movie.vote_average.toString(),
+                    movie.poster_path
                 )
             )
         } else {
@@ -184,7 +185,8 @@ class DetailMovieActivity : AppCompatActivity() {
                     television.id.toString(),
                     television.name,
                     television.overview,
-                    television.vote_average.toString()
+                    television.vote_average.toString(),
+                    television.poster_path
                 )
             )
         }
