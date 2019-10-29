@@ -54,30 +54,27 @@ class MainActivity : AppCompatActivity() {
                 val fragment: Fragment
                 when (item.itemId) {
                     R.id.navigation_movie -> {
-                        fragment = ListMovieFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
-                            .commit()
+                        loadFragment(ListMovieFragment())
                         return true
                     }
                     R.id.navigation_favorite -> {
-                        fragment = ListFavoriteFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
-                            .commit()
+                        loadFragment(ListFavoriteFragment())
                         return true
                     }
                     R.id.navigation_tvshow -> {
-                        fragment = ListTelevisionFragment()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
-                            .commit()
+                        loadFragment(ListTelevisionFragment())
                         return true
                     }
                 }
                 return false
             }
         }
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_container, fragment, fragment::class.java.simpleName)
+            .commit()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
