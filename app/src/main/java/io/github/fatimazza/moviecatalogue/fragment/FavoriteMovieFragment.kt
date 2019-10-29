@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.FavoriteMovieAdapter
+import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 
 
@@ -18,6 +21,8 @@ class FavoriteMovieFragment : Fragment() {
         get() = rv_fav_movie
 
     private lateinit var listFavMovieAdapter: FavoriteMovieAdapter
+
+    private lateinit var favMovieViewModel: FavoriteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +34,13 @@ class FavoriteMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initFavoriteMovieViewModel()
         setupListFavoriteMovieAdapter()
+        fetchFavoriteMovieData()
+    }
+
+    private fun initFavoriteMovieViewModel() {
+        favMovieViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
     private fun setupListFavoriteMovieAdapter() {
@@ -37,5 +48,13 @@ class FavoriteMovieFragment : Fragment() {
         listFavMovieAdapter = FavoriteMovieAdapter()
         listFavMovieAdapter.notifyDataSetChanged()
         listFavMovie.adapter = listFavMovieAdapter
+    }
+
+    private fun fetchFavoriteMovieData() {
+        favMovieViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
+            if (listMovie.isNotEmpty()) {
+                listFavMovieAdapter.setData(listMovie)
+            }
+        })
     }
 }
