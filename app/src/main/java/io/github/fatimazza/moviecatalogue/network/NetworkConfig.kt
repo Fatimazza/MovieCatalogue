@@ -1,15 +1,14 @@
 package io.github.fatimazza.moviecatalogue.network
 
 import io.github.fatimazza.moviecatalogue.BuildConfig
-import io.github.fatimazza.moviecatalogue.model.BaseResponse
-import io.github.fatimazza.moviecatalogue.model.MovieResponse
-import io.github.fatimazza.moviecatalogue.model.TvShowResponse
+import io.github.fatimazza.moviecatalogue.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -64,5 +63,9 @@ interface MovieAPIService {
     @GET("discover/movie")
     fun fetchMovie(@Query("api_key") apiKey: String, @Query("language") language: String)
             : Call<BaseResponse<MovieResponse>>
+
+    @GET("movie/{id}")
+    fun fetchDetailMovie(@Path("id") id: Int, @Query("api_key") apiKey: String, @Query("language") language: String)
+            : Call<MovieDetailResponse>
 
 }
