@@ -2,15 +2,15 @@ package io.github.fatimazza.moviecatalogue.database
 
 import androidx.lifecycle.LiveData
 
-class DatabaseRepository(private val favMovieDao: FavoriteDatabaseDao) {
+class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
 
-    val allFavMovies: LiveData<List<FavoriteMovie>> = favMovieDao.getAllMovies()
+    val allFavMovies: LiveData<List<FavoriteMovie>> = favDatabaseDao.getAllMovies()
 
     suspend fun insertMovie(movie: FavoriteMovie) {
-        favMovieDao.insertMovie(movie)
+        favDatabaseDao.insertMovie(movie)
     }
 
     suspend fun deleteMovie(id: Long) {
-        favMovieDao.deleteFavMovie(id)
+        favDatabaseDao.deleteFavMovie(id)
     }
 }
