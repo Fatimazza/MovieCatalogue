@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.FavoriteTelevisionAdapter
+import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.fragment_favorite_television.*
 
 
@@ -18,6 +21,8 @@ class FavoriteTelevisionFragment : Fragment() {
         get() = rv_fav_tv
 
     private lateinit var listFavTelevisionAdapter: FavoriteTelevisionAdapter
+
+    private lateinit var favTelevisionViewModel: FavoriteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +34,13 @@ class FavoriteTelevisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initFavoriteTelevisionViewModel()
         setupListFavoriteTelevisionAdapter()
+        fetchFavoriteTelevisionData()
+    }
+
+    private fun initFavoriteTelevisionViewModel() {
+        favTelevisionViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
     private fun setupListFavoriteTelevisionAdapter() {
@@ -37,5 +48,13 @@ class FavoriteTelevisionFragment : Fragment() {
         listFavTelevisionAdapter = FavoriteTelevisionAdapter()
         listFavTelevisionAdapter.notifyDataSetChanged()
         listFavTelevision.adapter = listFavTelevisionAdapter
+    }
+
+    private fun fetchFavoriteTelevisionData() {
+        favTelevisionViewModel.getAllFavoriteTvShows().observe(this, Observer { listTvShow ->
+            if (listTvShow.isNotEmpty()) {
+                listFavTelevisionAdapter.setData(listTvShow)
+            }
+        })
     }
 }
