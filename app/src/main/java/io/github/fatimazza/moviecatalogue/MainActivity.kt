@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import io.github.fatimazza.moviecatalogue.fragment.ListFavoriteFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListMovieFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListTelevisionFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,7 +61,11 @@ class MainActivity : AppCompatActivity() {
                         return true
                     }
                     R.id.navigation_favorite -> {
-
+                        fragment = ListFavoriteFragment()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fl_container, fragment, fragment.javaClass.simpleName)
+                            .commit()
+                        return true
                     }
                     R.id.navigation_tvshow -> {
                         fragment = ListTelevisionFragment()
