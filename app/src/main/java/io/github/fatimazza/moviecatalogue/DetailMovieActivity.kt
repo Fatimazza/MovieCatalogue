@@ -1,18 +1,23 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
+import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 
 class DetailMovieActivity : AppCompatActivity() {
@@ -40,6 +45,10 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private var isFavorited: Boolean = false
 
+    private var isMovie: Boolean = false
+
+    private lateinit var favoriteViewModel: FavoriteViewModel
+
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
         const val EXTRA_TELEVISION = "extra_television"
@@ -51,13 +60,21 @@ class DetailMovieActivity : AppCompatActivity() {
 
         getIntentExtra()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
     private fun getIntentExtra() {
         if (intent.hasExtra(EXTRA_MOVIE)) {
+            isMovie = true
             movie = intent.getParcelableExtra(EXTRA_MOVIE)
             displayMovieDetail(movie)
         } else if (intent.hasExtra(EXTRA_TELEVISION)) {
+            isMovie = false
             television = intent.getParcelableExtra(EXTRA_TELEVISION)
             displayTelevisionDetail(television)
         }
@@ -113,11 +130,34 @@ class DetailMovieActivity : AppCompatActivity() {
                 true
             }
             R.id.action_favorite -> {
+                addOrRemoveFavorite()
                 isFavorited = !isFavorited
                 setFavoriteIcon()
                 true
             }
             else -> true
+        }
+    }
+
+    private fun addOrRemoveFavorite() {
+        if (isMovie) {
+            favoriteViewModel.insertMovie(
+                FavoriteMovie(
+                    0,
+                    movie.id.toString(),
+                    movie.title,
+                    movie.overview,
+                    movie.vote_average.toString()
+                )
+            )
+
+            favoriteViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
+                if (listMovie.isNotEmpty()) {
+                    for (i in 0 until listMovie.size) {
+                        Log.d("Izza", "" + listMovie[i].favMovieId + listMovie[i].movieTitle)
+                    }
+                }
+            })
         }
     }
 }
