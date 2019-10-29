@@ -13,4 +13,7 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
     suspend fun deleteMovie(id: Long) {
         favDatabaseDao.deleteFavMovie(id)
     }
+
+    val allFavTvShows: LiveData<List<FavoriteTv>> = favDatabaseDao.getAllTvShows()
+
 }
