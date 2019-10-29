@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
+import io.github.fatimazza.moviecatalogue.database.FavoriteTv
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
@@ -174,6 +175,16 @@ class DetailMovieActivity : AppCompatActivity() {
                     movie.title,
                     movie.overview,
                     movie.vote_average.toString()
+                )
+            )
+        } else {
+            favoriteViewModel.insertTvShow(
+                FavoriteTv(
+                    0,
+                    television.id.toString(),
+                    television.name,
+                    television.overview,
+                    television.vote_average.toString()
                 )
             )
         }
