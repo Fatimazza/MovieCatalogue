@@ -25,10 +25,10 @@ interface FavoriteDatabaseDao {
     fun deleteFavMovie(key: Long)
 
     @Query("DELETE FROM fav_movie_table")
-    fun clearFavMovie()
+    fun clearAllFavMovie()
 
     @Query("DELETE FROM fav_tv_table")
-    fun clearFavTvShow()
+    fun clearAllFavTvShow()
 
     @Query("SELECT * FROM fav_movie_table ORDER BY favMovieId DESC")
     fun getAllMovies(): LiveData<List<FavoriteMovie>>
