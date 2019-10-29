@@ -130,9 +130,9 @@ class DetailMovieActivity : AppCompatActivity() {
                 true
             }
             R.id.action_favorite -> {
-                addOrRemoveFavorite()
                 isFavorited = !isFavorited
                 setFavoriteIcon()
+                addOrRemoveFavorite()
                 true
             }
             else -> true
@@ -140,6 +140,24 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun addOrRemoveFavorite() {
+        if (isFavorited) {
+            addToFavorite()
+        } else {
+            removeFromFavorite()
+        }
+
+        if (isMovie) {
+            favoriteViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
+                if (listMovie.isNotEmpty()) {
+                    for (i in 0 until listMovie.size) {
+                        Log.d("Izza", " " + listMovie[i].favMovieId + " " + listMovie[i].movieTitle)
+                    }
+                }
+            })
+        }
+    }
+
+    private fun addToFavorite() {
         if (isMovie) {
             favoriteViewModel.insertMovie(
                 FavoriteMovie(
@@ -150,14 +168,12 @@ class DetailMovieActivity : AppCompatActivity() {
                     movie.vote_average.toString()
                 )
             )
+        }
+    }
 
-            favoriteViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
-                if (listMovie.isNotEmpty()) {
-                    for (i in 0 until listMovie.size) {
-                        Log.d("Izza", "" + listMovie[i].favMovieId + listMovie[i].movieTitle)
-                    }
-                }
-            })
+    private fun removeFromFavorite() {
+        if (isMovie) {
+            Log.d("Izza", "Remove item from db Favorite")
         }
     }
 }
