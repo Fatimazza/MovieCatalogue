@@ -195,6 +195,10 @@ class DetailMovieActivity : AppCompatActivity() {
             favoriteViewModel.deleteMovie(
                 movie.id.toLong()
             )
+        } else {
+            favoriteViewModel.deleteTvShow(
+                television.id.toLong()
+            )
         }
     }
 }

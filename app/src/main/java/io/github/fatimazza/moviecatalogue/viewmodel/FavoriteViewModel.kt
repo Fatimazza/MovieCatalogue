@@ -53,4 +53,11 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
             Log.d("Izza", "Tv ${tv.tvTitle} ${tv.tvTitle} - - INSERTED")
         }
     }
+
+    fun deleteTvShow(tvId: Long) {
+        GlobalScope.launch {
+            repository.deleteTvShow(tvId)
+            Log.d("Izza", "Tv ${tvId} - - DELETED")
+        }
+    }
 }

@@ -24,6 +24,9 @@ interface FavoriteDatabaseDao {
     @Query("DELETE FROM fav_movie_table WHERE movieId = :key")
     fun deleteFavMovie(key: Long)
 
+    @Query("DELETE FROM fav_tv_table WHERE tvId = :key")
+    fun deleteFavTvShow(key: Long)
+
     @Query("DELETE FROM fav_movie_table")
     fun clearAllFavMovie()
 

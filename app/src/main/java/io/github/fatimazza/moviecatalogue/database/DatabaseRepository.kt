@@ -19,4 +19,8 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
     suspend fun insertTvShow(tv: FavoriteTv) {
         favDatabaseDao.insetTvShow(tv)
     }
+
+    suspend fun deleteTvShow(id: Long) {
+        favDatabaseDao.deleteFavTvShow(id)
+    }
 }
