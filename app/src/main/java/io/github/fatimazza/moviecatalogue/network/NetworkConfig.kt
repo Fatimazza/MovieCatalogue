@@ -64,6 +64,10 @@ interface MovieAPIService {
     fun fetchMovie(@Query("api_key") apiKey: String, @Query("language") language: String)
             : Call<BaseResponse<MovieResponse>>
 
+    @GET("tv/{id}")
+    fun fetchDetailTvShow(@Path("id") id: Int, @Query("api_key") apiKey: String, @Query("language") language: String)
+            : Call<TvDetailResponse>
+
     @GET("movie/{id}")
     fun fetchDetailMovie(@Path("id") id: Int, @Query("api_key") apiKey: String, @Query("language") language: String)
             : Call<MovieDetailResponse>

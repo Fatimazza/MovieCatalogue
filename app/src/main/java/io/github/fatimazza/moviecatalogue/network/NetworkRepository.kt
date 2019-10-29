@@ -2,10 +2,7 @@ package io.github.fatimazza.moviecatalogue.network
 
 import androidx.lifecycle.MutableLiveData
 import io.github.fatimazza.moviecatalogue.BuildConfig
-import io.github.fatimazza.moviecatalogue.model.BaseResponse
-import io.github.fatimazza.moviecatalogue.model.MovieDetailResponse
-import io.github.fatimazza.moviecatalogue.model.MovieResponse
-import io.github.fatimazza.moviecatalogue.model.TvShowResponse
+import io.github.fatimazza.moviecatalogue.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,5 +80,26 @@ class NetworkRepository {
                 }
             })
         return movieDetail
+    }
+
+    fun getTvShowDetail(id: Int, locale: String): MutableLiveData<TvDetailResponse> {
+        val tvShowDetail = MutableLiveData<TvDetailResponse>()
+
+        NetworkConfig.api().fetchDetailTvShow(id, BuildConfig.API_KEY, locale)
+            .enqueue(object : Callback<TvDetailResponse> {
+                override fun onFailure(call: Call<TvDetailResponse>, t: Throwable) {
+                    tvShowDetail.postValue(null)
+                }
+
+                override fun onResponse(
+                    call: Call<TvDetailResponse>,
+                    response: Response<TvDetailResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        tvShowDetail.postValue(response.body())
+                    }
+                }
+            })
+        return tvShowDetail
     }
 }
