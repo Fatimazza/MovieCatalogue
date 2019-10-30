@@ -39,7 +39,7 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     fun deleteMovie(movieId: Long) {
         GlobalScope.launch {
             repository.deleteMovie(movieId)
-            Log.d("Izza", "Movie ${movieId} - - DELETED")
+            Log.d("Izza", "Movie $movieId - - DELETED")
         }
     }
 
@@ -50,14 +50,14 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     fun insertTvShow(tv: FavoriteTv) {
         GlobalScope.launch {
             repository.insertTvShow(tv)
-            Log.d("Izza", "Tv ${tv.tvTitle} ${tv.tvTitle} - - INSERTED")
+            Log.d("Izza", "Tv ${tv.tvTitle} ${tv.tvId} - - INSERTED")
         }
     }
 
     fun deleteTvShow(tvId: Long) {
         GlobalScope.launch {
             repository.deleteTvShow(tvId)
-            Log.d("Izza", "Tv ${tvId} - - DELETED")
+            Log.d("Izza", "Tv $tvId - - DELETED")
         }
     }
 }
