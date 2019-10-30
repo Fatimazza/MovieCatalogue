@@ -13,6 +13,7 @@
     <string name="list_load_failed">Load failed.</string>
     <string name="list_retry_button">Retry</string>
     <string name="list_movie_description_empty">No description yet.</string>
+    <string name="list_favorite_empty">No favorite yet.</string>
     <string name="favorite_error">Can\'t add to favorite</string>
 
 </resources>

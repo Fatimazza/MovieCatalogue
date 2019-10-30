@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +23,9 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
 
     private val listFavMovie: RecyclerView
         get() = rv_fav_movie
+
+    private val tvFavMovieEmpty: TextView
+        get() = tv_fav_movie_empty
 
     private lateinit var listFavMovieAdapter: FavoriteMovieAdapter
 
@@ -58,8 +62,10 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
         favMovieViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
             if (listMovie != null) {
                 listFavMovieAdapter.setData(listMovie)
+                tvFavMovieEmpty.visibility = if (listMovie.isEmpty()) View.VISIBLE else View.GONE
             } else {
                 listFavMovieAdapter.setData(listFavMovieAdapter.getData())
+                tvFavMovieEmpty.visibility = View.VISIBLE
             }
         })
     }
