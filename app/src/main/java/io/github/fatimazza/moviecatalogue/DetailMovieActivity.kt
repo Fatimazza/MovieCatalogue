@@ -78,6 +78,7 @@ class DetailMovieActivity : AppCompatActivity() {
         private const val STATE_DETAIL_RELEASE_DATE = "state_detail_release_date"
         private const val STATE_DETAIL_VOTE_AVERAGE = "state_detail_vote_average"
         private const val STATE_DETAIL_POSTER_PATH = "state_detail_poster_path"
+        private const val STATE_LOCALE = "state_locale"
     }
 
     private lateinit var localeChangedReceiver: BroadcastReceiver
@@ -94,24 +95,33 @@ class DetailMovieActivity : AppCompatActivity() {
         initViewModel()
         setClickListener()
 
+        initiateFetchDetail(savedInstanceState)
+    }
+
+    private fun initiateFetchDetail(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             fetchDetails()
         } else {
-            val stateTitle = savedInstanceState.getString(STATE_DETAIL_TITLE)
-            val stateOverview = savedInstanceState.getString(STATE_DETAIL_OVERVIEW)
-            val stateReleaseDate = savedInstanceState.getString(STATE_DETAIL_RELEASE_DATE)
-            val stateVoteAverage = savedInstanceState.getString(STATE_DETAIL_VOTE_AVERAGE)
-            val statePosterPath = savedInstanceState.getString(STATE_DETAIL_POSTER_PATH)
+            val stateLocale = savedInstanceState.getString(STATE_LOCALE)
+            if (stateLocale != locale) {
+                fetchDetails()
+            } else {
+                val stateTitle = savedInstanceState.getString(STATE_DETAIL_TITLE)
+                val stateOverview = savedInstanceState.getString(STATE_DETAIL_OVERVIEW)
+                val stateReleaseDate = savedInstanceState.getString(STATE_DETAIL_RELEASE_DATE)
+                val stateVoteAverage = savedInstanceState.getString(STATE_DETAIL_VOTE_AVERAGE)
+                val statePosterPath = savedInstanceState.getString(STATE_DETAIL_POSTER_PATH)
 
-            if (stateTitle != null) {
-                if (stateTitle.isNotEmpty()) {
-                    populateDetails(
-                        stateTitle, stateOverview ?: "",
-                        stateReleaseDate ?: "", stateVoteAverage ?: "", statePosterPath ?: ""
-                    )
-                    showDetailMovie(true)
-                } else {
-                    showDetailMovie(false)
+                if (stateTitle != null) {
+                    if (stateTitle.isNotEmpty()) {
+                        populateDetails(
+                            stateTitle, stateOverview ?: "",
+                            stateReleaseDate ?: "", stateVoteAverage ?: "", statePosterPath ?: ""
+                        )
+                        showDetailMovie(true)
+                    } else {
+                        showDetailMovie(false)
+                    }
                 }
             }
         }
@@ -124,6 +134,7 @@ class DetailMovieActivity : AppCompatActivity() {
         outState.putString(STATE_DETAIL_RELEASE_DATE, detailReleaseDate)
         outState.putString(STATE_DETAIL_VOTE_AVERAGE, detailVoteAverage)
         outState.putString(STATE_DETAIL_POSTER_PATH, detailPosterPath)
+        outState.putString(STATE_LOCALE, locale)
     }
 
     private fun createLocaleChangedReceiver() {
