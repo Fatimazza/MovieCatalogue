@@ -31,8 +31,14 @@ class DetailMovieActivity : AppCompatActivity() {
     private val tvMovieTitle: TextView
         get() = tv_movie_title
 
+    private val tvMovieReleaseTitle: TextView
+        get() = tv_movie_release_title
+
     private val tvMovieRelease: TextView
         get() = tv_movie_release
+
+    private val tvMovieRateTitle: TextView
+        get() = tv_movie_time_title
 
     private val tvMovieRate: TextView
         get() = tv_movie_rate
@@ -103,13 +109,13 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun showDetailMovie(state: Boolean) {
         val viewState = if (state) View.VISIBLE else View.GONE
-        iv_movie_image.visibility = viewState
-        tv_movie_title.visibility = viewState
-        tv_movie_release_title.visibility = viewState
-        tv_movie_release.visibility = viewState
-        tv_movie_time_title.visibility = viewState
-        tv_movie_rate.visibility = viewState
-        tv_movie_desc.visibility = viewState
+        ivMovieImage.visibility = viewState
+        tvMovieTitle.visibility = viewState
+        tvMovieReleaseTitle.visibility = viewState
+        tvMovieRelease.visibility = viewState
+        tvMovieRateTitle.visibility = viewState
+        tvMovieRate.visibility = viewState
+        tvMovieDescription.visibility = viewState
         showFailedLoad(!state)
     }
 
