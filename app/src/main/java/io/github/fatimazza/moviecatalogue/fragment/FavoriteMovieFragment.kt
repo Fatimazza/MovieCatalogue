@@ -56,8 +56,10 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
 
     private fun fetchFavoriteMovieData() {
         favMovieViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
-            if (listMovie.isNotEmpty()) {
+            if (listMovie != null) {
                 listFavMovieAdapter.setData(listMovie)
+            } else {
+                listFavMovieAdapter.setData(listFavMovieAdapter.getData())
             }
         })
     }

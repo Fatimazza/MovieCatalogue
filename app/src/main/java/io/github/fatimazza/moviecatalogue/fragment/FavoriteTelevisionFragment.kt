@@ -56,8 +56,10 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
 
     private fun fetchFavoriteTelevisionData() {
         favTelevisionViewModel.getAllFavoriteTvShows().observe(this, Observer { listTvShow ->
-            if (listTvShow.isNotEmpty()) {
+            if (listTvShow != null) {
                 listFavTelevisionAdapter.setData(listTvShow)
+            } else {
+                listFavTelevisionAdapter.setData(listFavTelevisionAdapter.getData())
             }
         })
     }
