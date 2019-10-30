@@ -43,7 +43,7 @@ interface FavoriteDatabaseDao {
     @Query("SELECT * from fav_movie_table WHERE movieId = :key")
     fun getFavMovie(key: Long): LiveData<FavoriteMovie>
 
-    @Query("SELECT * from fav_tv_table WHERE favTvId = :key")
-    fun getFavTvShow(key: Long): FavoriteTv?
+    @Query("SELECT * from fav_tv_table WHERE tvId = :key")
+    fun getFavTvShow(key: Long): LiveData<FavoriteTv>
 }
 

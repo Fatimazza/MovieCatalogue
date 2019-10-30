@@ -51,6 +51,10 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         return allFavTvShows
     }
 
+    fun getTvShow(id: Long): LiveData<FavoriteTv> {
+        return repository.getTvShow(id)
+    }
+
     fun insertTvShow(tv: FavoriteTv) {
         GlobalScope.launch {
             repository.insertTvShow(tv)

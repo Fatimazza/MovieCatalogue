@@ -100,11 +100,19 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun setFavorite() {
-        favoriteViewModel.getMovie(detailId.toLong()).observe(this, Observer { movie ->
-            Log.d("Izza", "getMovie $movie")
-            isFavorited = movie != null
-            setFavoriteIcon()
-        })
+        if (isMovie) {
+            favoriteViewModel.getMovie(detailId.toLong()).observe(this, Observer { movie ->
+                Log.d("Izza", "getMovie $movie")
+                isFavorited = movie != null
+                setFavoriteIcon()
+            })
+        } else {
+            favoriteViewModel.getTvShow(detailId.toLong()).observe(this, Observer { tvShow ->
+                Log.d("Izza", "getTv $tvShow")
+                isFavorited = tvShow != null
+                setFavoriteIcon()
+            })
+        }
     }
 
     private fun initiateFetchDetail(savedInstanceState: Bundle?) {

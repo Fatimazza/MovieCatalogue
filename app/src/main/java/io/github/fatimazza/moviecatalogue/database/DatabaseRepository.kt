@@ -18,6 +18,8 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
 
     val allFavTvShows: LiveData<List<FavoriteTv>> = favDatabaseDao.getAllTvShows()
 
+    fun getTvShow(id: Long): LiveData<FavoriteTv> = favDatabaseDao.getFavTvShow(id)
+
     suspend fun insertTvShow(tv: FavoriteTv) {
         favDatabaseDao.insetTvShow(tv)
     }
