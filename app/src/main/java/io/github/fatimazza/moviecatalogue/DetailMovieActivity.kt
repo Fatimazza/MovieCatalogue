@@ -79,6 +79,7 @@ class DetailMovieActivity : AppCompatActivity() {
         private const val STATE_DETAIL_VOTE_AVERAGE = "state_detail_vote_average"
         private const val STATE_DETAIL_POSTER_PATH = "state_detail_poster_path"
         private const val STATE_LOCALE = "state_locale"
+        private const val STATE_FAVORITE = "state_favorite"
     }
 
     private lateinit var localeChangedReceiver: BroadcastReceiver
@@ -127,6 +128,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 val stateReleaseDate = savedInstanceState.getString(STATE_DETAIL_RELEASE_DATE)
                 val stateVoteAverage = savedInstanceState.getString(STATE_DETAIL_VOTE_AVERAGE)
                 val statePosterPath = savedInstanceState.getString(STATE_DETAIL_POSTER_PATH)
+                val stateFavorite = savedInstanceState.getBoolean(STATE_FAVORITE, false)
 
                 if (stateTitle != null) {
                     if (stateTitle.isNotEmpty()) {
@@ -135,6 +137,7 @@ class DetailMovieActivity : AppCompatActivity() {
                             stateReleaseDate ?: "", stateVoteAverage ?: "", statePosterPath ?: ""
                         )
                         showDetailMovie(true)
+                        isFavorited = stateFavorite
                     } else {
                         showDetailMovie(false)
                     }
@@ -151,6 +154,7 @@ class DetailMovieActivity : AppCompatActivity() {
         outState.putString(STATE_DETAIL_VOTE_AVERAGE, detailVoteAverage)
         outState.putString(STATE_DETAIL_POSTER_PATH, detailPosterPath)
         outState.putString(STATE_LOCALE, locale)
+        outState.putBoolean(STATE_FAVORITE, isFavorited)
     }
 
     private fun createLocaleChangedReceiver() {
