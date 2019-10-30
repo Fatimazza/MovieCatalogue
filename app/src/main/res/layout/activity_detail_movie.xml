@@ -69,7 +69,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/poster_avengerinfinity"
             tools:visibility="visible" />
 
         <TextView
