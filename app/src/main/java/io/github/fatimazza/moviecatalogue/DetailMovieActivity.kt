@@ -80,6 +80,7 @@ class DetailMovieActivity : AppCompatActivity() {
 
         setLanguage()
         initViewModel()
+        setClickListener()
         fetchDetails()
     }
 
@@ -87,6 +88,12 @@ class DetailMovieActivity : AppCompatActivity() {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
             .get(DetailViewModel::class.java)
+    }
+
+    private fun setClickListener() {
+        btnRetryDetail.setOnClickListener {
+            fetchDetails()
+        }
     }
 
     private fun getIntentExtra() {
@@ -124,6 +131,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun fetchDetails() {
+        showFailedLoad(false)
         showLoading(true)
         if (isMovie) {
             detailViewModel.getMovieDetail(Integer.valueOf(detailId), locale)
