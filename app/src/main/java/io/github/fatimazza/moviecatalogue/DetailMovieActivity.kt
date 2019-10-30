@@ -96,7 +96,6 @@ class DetailMovieActivity : AppCompatActivity() {
         setClickListener()
 
         initiateFetchDetail(savedInstanceState)
-        setFavorite()
     }
 
     private fun setFavorite() {
@@ -226,6 +225,7 @@ class DetailMovieActivity : AppCompatActivity() {
                             movieDetail.poster_path
                         )
                         showDetailMovie(true)
+                        setFavorite()
                     } else {
                         showDetailMovie(false)
                     }
@@ -243,6 +243,7 @@ class DetailMovieActivity : AppCompatActivity() {
                             tvDetail.poster_path
                         )
                         showDetailMovie(true)
+                        setFavorite()
                     } else {
                         showDetailMovie(false)
                     }
