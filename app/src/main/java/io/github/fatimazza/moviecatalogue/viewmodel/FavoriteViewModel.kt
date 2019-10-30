@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: DatabaseRepository
-    val allFavMovies: LiveData<List<FavoriteMovie>>
-    val allFavTvShows: LiveData<List<FavoriteTv>>
+    private val allFavMovies: LiveData<List<FavoriteMovie>>
+    private val allFavTvShows: LiveData<List<FavoriteTv>>
 
     init {
         val favDatabaseDao = FavoriteDatabase.getInstance(application).favoriteDatabaseDao

@@ -8,11 +8,11 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
 
     fun getMovie(id: Long): LiveData<FavoriteMovie> = favDatabaseDao.getFavMovie(id)
 
-    suspend fun insertMovie(movie: FavoriteMovie) {
+    fun insertMovie(movie: FavoriteMovie) {
         favDatabaseDao.insertMovie(movie)
     }
 
-    suspend fun deleteMovie(id: Long) {
+    fun deleteMovie(id: Long) {
         favDatabaseDao.deleteFavMovie(id)
     }
 
@@ -20,11 +20,11 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
 
     fun getTvShow(id: Long): LiveData<FavoriteTv> = favDatabaseDao.getFavTvShow(id)
 
-    suspend fun insertTvShow(tv: FavoriteTv) {
+    fun insertTvShow(tv: FavoriteTv) {
         favDatabaseDao.insetTvShow(tv)
     }
 
-    suspend fun deleteTvShow(id: Long) {
+    fun deleteTvShow(id: Long) {
         favDatabaseDao.deleteFavTvShow(id)
     }
 }
