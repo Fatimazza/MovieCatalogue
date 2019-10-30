@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +23,9 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
 
     private val listFavTelevision: RecyclerView
         get() = rv_fav_tv
+
+    private val tvFavTelevisionEmpty: TextView
+        get() = tv_fav_television_empty
 
     private lateinit var listFavTelevisionAdapter: FavoriteTelevisionAdapter
 
@@ -58,8 +62,11 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
         favTelevisionViewModel.getAllFavoriteTvShows().observe(this, Observer { listTvShow ->
             if (listTvShow != null) {
                 listFavTelevisionAdapter.setData(listTvShow)
+                tvFavTelevisionEmpty.visibility =
+                    if (listTvShow.isEmpty()) View.VISIBLE else View.GONE
             } else {
                 listFavTelevisionAdapter.setData(listFavTelevisionAdapter.getData())
+                tvFavTelevisionEmpty.visibility = View.VISIBLE
             }
         })
     }
