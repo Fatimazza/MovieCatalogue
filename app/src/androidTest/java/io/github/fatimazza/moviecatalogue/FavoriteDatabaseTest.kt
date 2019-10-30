@@ -66,6 +66,6 @@ class FavoriteDatabaseTest {
         val movie = FavoriteMovie()
         favDao.insertMovie(movie)
         val favoriteMovie = favDao.getFavMovie(0)
-        assertEquals(favoriteMovie?.movieId, null)
+        assertEquals(favoriteMovie.value?.movieTitle, null)
     }
 }
