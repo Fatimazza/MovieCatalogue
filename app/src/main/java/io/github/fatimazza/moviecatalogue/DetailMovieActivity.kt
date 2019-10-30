@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -97,13 +98,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun showLoading(state: Boolean) {
-        if (state) {
-            pbLoadingDetail.visibility = View.VISIBLE
-            showDetailMovie(false)
-        } else {
-            pbLoadingDetail.visibility = View.GONE
-            showDetailMovie(true)
-        }
+        pbLoadingDetail.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun showDetailMovie(state: Boolean) {
@@ -115,6 +110,11 @@ class DetailMovieActivity : AppCompatActivity() {
         tv_movie_time_title.visibility = viewState
         tv_movie_rate.visibility = viewState
         tv_movie_desc.visibility = viewState
+        showFailedLoad(!state)
+    }
+
+    private fun showFailedLoad(state: Boolean) {
+        llDetailFailed.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     private fun fetchDetails() {
@@ -131,8 +131,9 @@ class DetailMovieActivity : AppCompatActivity() {
                             movieDetail.vote_average.toString(),
                             movieDetail.poster_path
                         )
+                        showDetailMovie(true)
                     } else {
-
+                        showDetailMovie(false)
                     }
                 })
         } else {
@@ -147,8 +148,9 @@ class DetailMovieActivity : AppCompatActivity() {
                             tvDetail.vote_average.toString(),
                             tvDetail.poster_path
                         )
+                        showDetailMovie(true)
                     } else {
-
+                        showDetailMovie(false)
                     }
                 }
             )
@@ -202,7 +204,11 @@ class DetailMovieActivity : AppCompatActivity() {
                 true
             }
             R.id.action_favorite -> {
-                if (pbLoadingDetail.isVisible) return false
+                if (pbLoadingDetail.isVisible || llDetailFailed.isVisible) {
+                    Toast.makeText(this, getString(R.string.favorite_error), Toast.LENGTH_SHORT)
+                        .show()
+                    return false
+                }
                 isFavorited = !isFavorited
                 setFavoriteIcon()
                 addOrRemoveFavorite()
