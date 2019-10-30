@@ -96,6 +96,15 @@ class DetailMovieActivity : AppCompatActivity() {
         setClickListener()
 
         initiateFetchDetail(savedInstanceState)
+        setFavorite()
+    }
+
+    private fun setFavorite() {
+        favoriteViewModel.getMovie(detailId.toLong()).observe(this, Observer { movie ->
+            Log.d("Izza", "getMovie $movie")
+            isFavorited = movie != null
+            setFavoriteIcon()
+        })
     }
 
     private fun initiateFetchDetail(savedInstanceState: Bundle?) {

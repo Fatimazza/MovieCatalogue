@@ -29,6 +29,10 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         return allFavMovies
     }
 
+    fun getMovie(id: Long): LiveData<FavoriteMovie> {
+        return repository.getMovie(id)
+    }
+
     fun insertMovie(movie: FavoriteMovie) {
         GlobalScope.launch {
             repository.insertMovie(movie)

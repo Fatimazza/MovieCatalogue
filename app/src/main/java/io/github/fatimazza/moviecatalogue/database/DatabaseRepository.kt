@@ -6,6 +6,8 @@ class DatabaseRepository(private val favDatabaseDao: FavoriteDatabaseDao) {
 
     val allFavMovies: LiveData<List<FavoriteMovie>> = favDatabaseDao.getAllMovies()
 
+    fun getMovie(id: Long): LiveData<FavoriteMovie> = favDatabaseDao.getFavMovie(id)
+
     suspend fun insertMovie(movie: FavoriteMovie) {
         favDatabaseDao.insertMovie(movie)
     }
