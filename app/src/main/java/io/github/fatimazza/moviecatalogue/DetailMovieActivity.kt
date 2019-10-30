@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -94,10 +96,33 @@ class DetailMovieActivity : AppCompatActivity() {
         locale = resources.configuration.locale.toLanguageTag()
     }
 
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            pbLoadingDetail.visibility = View.VISIBLE
+            showDetailMovie(false)
+        } else {
+            pbLoadingDetail.visibility = View.GONE
+            showDetailMovie(true)
+        }
+    }
+
+    private fun showDetailMovie(state: Boolean) {
+        val viewState = if (state) View.VISIBLE else View.GONE
+        iv_movie_image.visibility = viewState
+        tv_movie_title.visibility = viewState
+        tv_movie_release_title.visibility = viewState
+        tv_movie_release.visibility = viewState
+        tv_movie_time_title.visibility = viewState
+        tv_movie_rate.visibility = viewState
+        tv_movie_desc.visibility = viewState
+    }
+
     private fun fetchDetails() {
+        showLoading(true)
         if (isMovie) {
             detailViewModel.getMovieDetail(Integer.valueOf(detailId), locale)
                 .observe(this, Observer { movieDetail ->
+                    showLoading(false)
                     if (movieDetail != null) {
                         populateDetails(
                             movieDetail.title,
@@ -113,6 +138,7 @@ class DetailMovieActivity : AppCompatActivity() {
         } else {
             detailViewModel.getTelevisionDetail(Integer.valueOf(detailId), locale).observe(
                 this, Observer { tvDetail ->
+                    showLoading(false)
                     if (tvDetail != null) {
                         populateDetails(
                             tvDetail.name,
@@ -176,6 +202,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 true
             }
             R.id.action_favorite -> {
+                if (pbLoadingDetail.isVisible) return false
                 isFavorited = !isFavorited
                 setFavoriteIcon()
                 addOrRemoveFavorite()
