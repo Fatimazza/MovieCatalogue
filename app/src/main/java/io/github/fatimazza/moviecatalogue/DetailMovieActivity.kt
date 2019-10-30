@@ -1,5 +1,9 @@
 package io.github.fatimazza.moviecatalogue
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -76,12 +80,15 @@ class DetailMovieActivity : AppCompatActivity() {
         private const val STATE_DETAIL_POSTER_PATH = "state_detail_poster_path"
     }
 
+    private lateinit var localeChangedReceiver: BroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_movie)
 
         getIntentExtra()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        createLocaleChangedReceiver()
 
         setLanguage()
         initViewModel()
@@ -117,6 +124,16 @@ class DetailMovieActivity : AppCompatActivity() {
         outState.putString(STATE_DETAIL_RELEASE_DATE, detailReleaseDate)
         outState.putString(STATE_DETAIL_VOTE_AVERAGE, detailVoteAverage)
         outState.putString(STATE_DETAIL_POSTER_PATH, detailPosterPath)
+    }
+
+    private fun createLocaleChangedReceiver() {
+        localeChangedReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                recreate()
+            }
+        }
+        val localeChangedIntentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
+        registerReceiver(localeChangedReceiver, localeChangedIntentFilter)
     }
 
     private fun initViewModel() {
@@ -331,5 +348,10 @@ class DetailMovieActivity : AppCompatActivity() {
                 detailId.toLong()
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(localeChangedReceiver)
     }
 }
