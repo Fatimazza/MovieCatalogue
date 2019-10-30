@@ -69,6 +69,11 @@ class DetailMovieActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
         const val EXTRA_TELEVISION = "extra_television"
+        private const val STATE_DETAIL_TITLE = "state_detail_title"
+        private const val STATE_DETAIL_OVERVIEW = "state_detail_overview"
+        private const val STATE_DETAIL_RELEASE_DATE = "state_detail_release_date"
+        private const val STATE_DETAIL_VOTE_AVERAGE = "state_detail_vote_average"
+        private const val STATE_DETAIL_POSTER_PATH = "state_detail_poster_path"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +86,37 @@ class DetailMovieActivity : AppCompatActivity() {
         setLanguage()
         initViewModel()
         setClickListener()
-        fetchDetails()
+
+        if (savedInstanceState == null) {
+            fetchDetails()
+        } else {
+            val stateTitle = savedInstanceState.getString(STATE_DETAIL_TITLE)
+            val stateOverview = savedInstanceState.getString(STATE_DETAIL_OVERVIEW)
+            val stateReleaseDate = savedInstanceState.getString(STATE_DETAIL_RELEASE_DATE)
+            val stateVoteAverage = savedInstanceState.getString(STATE_DETAIL_VOTE_AVERAGE)
+            val statePosterPath = savedInstanceState.getString(STATE_DETAIL_POSTER_PATH)
+
+            if (stateTitle != null) {
+                if (stateTitle.isNotEmpty()) {
+                    populateDetails(
+                        stateTitle, stateOverview ?: "",
+                        stateReleaseDate ?: "", stateVoteAverage ?: "", statePosterPath ?: ""
+                    )
+                    showDetailMovie(true)
+                } else {
+                    showDetailMovie(false)
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_DETAIL_TITLE, detailTitle)
+        outState.putString(STATE_DETAIL_OVERVIEW, detailOverview)
+        outState.putString(STATE_DETAIL_RELEASE_DATE, detailReleaseDate)
+        outState.putString(STATE_DETAIL_VOTE_AVERAGE, detailVoteAverage)
+        outState.putString(STATE_DETAIL_POSTER_PATH, detailPosterPath)
     }
 
     private fun initViewModel() {
