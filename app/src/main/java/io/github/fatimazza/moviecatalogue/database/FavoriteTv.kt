@@ -26,5 +26,8 @@ data class FavoriteTv(
     var tvReleaseDate: String = "",
 
     @ColumnInfo(name = "tvPosterPath")
-    var tvPosterPath: String = ""
+    var tvPosterPath: String = "",
+
+    @ColumnInfo(name = "tvLang")
+    var tvLang: String = ""
 )

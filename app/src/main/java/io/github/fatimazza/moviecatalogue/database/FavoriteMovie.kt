@@ -26,5 +26,8 @@ data class FavoriteMovie(
     var movieReleaseDate: String = "",
 
     @ColumnInfo(name = "moviePosterPath")
-    var moviePosterPath: String = ""
+    var moviePosterPath: String = "",
+
+    @ColumnInfo(name = "movieLang")
+    var movieLang: String = ""
 )
