@@ -323,24 +323,6 @@ class DetailMovieActivity : AppCompatActivity() {
         } else {
             removeFromFavorite()
         }
-
-        if (isMovie) {
-            favoriteViewModel.getAllFavoriteMovies().observe(this, Observer { listMovie ->
-                if (listMovie.isNotEmpty()) {
-                    for (i in 0 until listMovie.size) {
-                        Log.d("Izza", "" + listMovie[i].favMovieId + " " + listMovie[i].movieTitle)
-                    }
-                }
-            })
-        } else {
-            favoriteViewModel.getAllFavoriteTvShows().observe(this, Observer { listTvShows ->
-                if (listTvShows.isNotEmpty()) {
-                    for (i in 0 until listTvShows.size) {
-                        Log.d("Izza", "" + listTvShows[i].favTvId + " " + listTvShows[i].tvTitle)
-                    }
-                }
-            })
-        }
     }
 
     private fun addToFavorite() {
