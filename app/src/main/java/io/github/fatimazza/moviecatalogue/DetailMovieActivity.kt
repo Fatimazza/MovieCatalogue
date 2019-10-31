@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
 import io.github.fatimazza.moviecatalogue.database.FavoriteTv
+import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.DetailViewModel
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -217,7 +218,9 @@ class DetailMovieActivity : AppCompatActivity() {
         showFailedLoad(false)
         showLoading(true)
         if (isMovie) {
-            detailViewModel.getMovieDetail(Integer.valueOf(detailId), locale)
+            detailViewModel.getMovieDetail(
+                Integer.valueOf(detailId), locale.getFormattedLanguage()
+            )
                 .observe(this, Observer { movieDetail ->
                     showLoading(false)
                     if (movieDetail != null) {
@@ -235,8 +238,10 @@ class DetailMovieActivity : AppCompatActivity() {
                     }
                 })
         } else {
-            detailViewModel.getTelevisionDetail(Integer.valueOf(detailId), locale).observe(
-                this, Observer { tvDetail ->
+            detailViewModel.getTelevisionDetail(
+                Integer.valueOf(detailId), locale.getFormattedLanguage()
+            )
+                .observe(this, Observer { tvDetail ->
                     showLoading(false)
                     if (tvDetail != null) {
                         populateDetails(
