@@ -33,11 +33,15 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         private const val STATE_LIST_TV = "state_list_tv"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_television, container, false)
     }
