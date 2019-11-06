@@ -9,10 +9,13 @@
     <string name="menu_tv_show">Acara Tv</string>
     <string name="menu_settings">Pengaturan</string>
     <string name="menu_favorite">Favorit</string>
+    <string name="menu_search">Cari</string>
+
     <string name="list_load_failed">Gagal memuat.</string>
     <string name="list_retry_button">Coba Lagi</string>
     <string name="list_movie_description_empty">Belum ada deskripsi.</string>
     <string name="list_favorite_empty">Belum ada favorit.</string>
     <string name="favorite_error">Tidak dapat menambah favorit</string>
+    <string name="search_hint">Cari film / acara tv</string>
 
 </resources>
