@@ -21,7 +21,7 @@ import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
 class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private val listTelevision: RecyclerView
         get() = rv_tvshow
@@ -31,6 +31,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     private lateinit var tvShowViewModel: TvShowViewModel
 
     private lateinit var locale: String
+
+    private lateinit var searchView: SearchView
 
     companion object {
         private const val STATE_LOCALE = "state_locale"
@@ -184,7 +186,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.searchview_menu, menu)
 
-        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        val searchItem = menu.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
         val searchManager =
             requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
@@ -192,6 +195,17 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(this)
 
+        searchItem.setOnActionExpandListener(this)
+
         super.onCreateOptionsMenu(menu, menuInflater)
+    }
+
+    override fun onMenuItemActionExpand(menuItem: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(menuItem: MenuItem?): Boolean {
+        fetchTelevisionData()
+        return true
     }
 }
