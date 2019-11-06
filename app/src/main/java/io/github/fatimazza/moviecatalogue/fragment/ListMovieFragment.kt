@@ -3,9 +3,7 @@ package io.github.fatimazza.moviecatalogue.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +37,7 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_movie, container, false)
     }
@@ -140,5 +139,10 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback {
 
     private fun setLanguage() {
         locale = resources.configuration.locale.toLanguageTag()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.searchview_menu, menu)
+        super.onCreateOptionsMenu(menu, menuInflater)
     }
 }
