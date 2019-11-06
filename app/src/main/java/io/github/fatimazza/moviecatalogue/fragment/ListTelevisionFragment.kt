@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -99,6 +98,9 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private fun fetchTelevisionData() {
         showLoading(true)
+        listTelevision.visibility = View.GONE
+        llTelevisionFailed.visibility = View.GONE
+
         tvShowViewModel.getTvShowData(locale.getFormattedLanguage())
             .observe(this, Observer { tvShow ->
             if (tvShow != null) {
@@ -151,12 +153,31 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         locale = resources.configuration.locale.toLanguageTag()
     }
 
+    private fun fetchTelevisionSearchData(query: String) {
+        showLoading(true)
+        listTelevision.visibility = View.GONE
+        llTelevisionFailed.visibility = View.GONE
+
+        tvShowViewModel.searchTvShow(locale.getFormattedLanguage(), query)
+            .observe(this, Observer { tvShow ->
+                if (tvShow != null) {
+                    listTelevisionAdapter.setData(tvShow)
+                    showLoading(false)
+                } else {
+                    showLoading(false)
+                    showFailedLoad(true)
+                }
+            })
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
+        if (!query.isNullOrBlank()) {
+            fetchTelevisionSearchData(query)
+        }
         return true
     }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
+    override fun onQueryTextChange(query: String?): Boolean {
         return false
     }
 
