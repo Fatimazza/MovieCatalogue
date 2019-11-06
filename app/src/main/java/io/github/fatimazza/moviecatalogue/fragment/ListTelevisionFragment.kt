@@ -1,9 +1,13 @@
 package io.github.fatimazza.moviecatalogue.fragment
 
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +21,8 @@ import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
 import kotlinx.android.synthetic.main.fragment_list_television.*
 
-class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback {
+class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback,
+    SearchView.OnQueryTextListener {
 
     private val listTelevision: RecyclerView
         get() = rv_tvshow
@@ -146,8 +151,26 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         locale = resources.configuration.locale.toLanguageTag()
     }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.searchview_menu, menu)
+
+        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        val searchManager =
+            requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+        searchView.queryHint = resources.getString(R.string.search_hint)
+        searchView.setOnQueryTextListener(this)
+
         super.onCreateOptionsMenu(menu, menuInflater)
     }
 }
