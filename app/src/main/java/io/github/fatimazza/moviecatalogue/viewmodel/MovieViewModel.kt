@@ -10,4 +10,8 @@ class MovieViewModel : ViewModel() {
     fun getMovieData(locale: String): MutableLiveData<ArrayList<MovieResponse>> {
         return NetworkRepository().getMovies(locale)
     }
+
+    fun searchMovie(locale: String, query: String): MutableLiveData<ArrayList<MovieResponse>> {
+        return NetworkRepository().searchMovies(locale, query)
+    }
 }

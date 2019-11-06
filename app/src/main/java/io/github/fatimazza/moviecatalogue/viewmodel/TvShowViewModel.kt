@@ -10,4 +10,8 @@ class TvShowViewModel : ViewModel() {
     fun getTvShowData(locale: String): MutableLiveData<ArrayList<TvShowResponse>> {
         return NetworkRepository().getTvShow(locale)
     }
+
+    fun searchTvShow(locale: String, query: String): MutableLiveData<ArrayList<TvShowResponse>> {
+        return NetworkRepository().searchTvShow(locale, query)
+    }
 }
