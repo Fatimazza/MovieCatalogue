@@ -21,7 +21,7 @@ import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.fragment_list_movie.*
 
 class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private val listMovie: RecyclerView
         get() = rv_movie
@@ -31,6 +31,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
     private lateinit var movieViewModel: MovieViewModel
 
     private lateinit var locale: String
+
+    private lateinit var searchView: SearchView
 
     companion object {
         private const val STATE_LOCALE = "state_locale"
@@ -183,7 +185,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.searchview_menu, menu)
 
-        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        val searchItem = menu.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
         val searchManager =
             requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
@@ -191,6 +194,17 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(this)
 
+        searchItem.setOnActionExpandListener(this)
+
         super.onCreateOptionsMenu(menu, menuInflater)
+    }
+
+    override fun onMenuItemActionExpand(menuItem: MenuItem?): Boolean {
+        return true
+    }
+
+    override fun onMenuItemActionCollapse(menuItem: MenuItem?): Boolean {
+        fetchMovieData()
+        return true
     }
 }
