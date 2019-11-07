@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -99,6 +98,9 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
 
     private fun fetchMovieData() {
         showLoading(true)
+        listMovie.visibility = View.GONE
+        llMovieFailed.visibility = View.GONE
+
         movieViewModel.getMovieData(locale.getFormattedLanguage()).observe(this, Observer { movie ->
             if (movie != null) {
                 listMovieAdapter.setData(movie)
@@ -150,12 +152,31 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
         locale = resources.configuration.locale.toLanguageTag()
     }
 
+    private fun fetchMovieSearchData(query: String) {
+        showLoading(true)
+        listMovie.visibility = View.GONE
+        llMovieFailed.visibility = View.GONE
+
+        movieViewModel.searchMovie(locale.getFormattedLanguage(), query)
+            .observe(this, Observer { movie ->
+                if (movie != null) {
+                    listMovieAdapter.setData(movie)
+                    showLoading(false)
+                } else {
+                    showLoading(false)
+                    showFailedLoad(true)
+                }
+            })
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Toast.makeText(requireContext(), query, Toast.LENGTH_SHORT).show()
+        if (!query.isNullOrBlank()) {
+            fetchMovieSearchData(query)
+        }
         return true
     }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
+    override fun onQueryTextChange(query: String?): Boolean {
         return false
     }
 
