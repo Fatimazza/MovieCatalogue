@@ -146,7 +146,11 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
 
     private fun setClickListener() {
         btnRetryMovie.setOnClickListener {
-            fetchMovieData()
+            if (searchView.isIconified) {
+                fetchMovieData()
+            } else {
+                fetchMovieSearchData(searchView.query.toString())
+            }
         }
     }
 

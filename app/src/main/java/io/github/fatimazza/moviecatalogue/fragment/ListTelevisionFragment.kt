@@ -147,7 +147,11 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private fun setClickListener() {
         btnRetryTelevision.setOnClickListener {
-            fetchTelevisionData()
+            if (searchView.isIconified) {
+                fetchTelevisionData()
+            } else {
+                fetchTelevisionSearchData(searchView.query.toString())
+            }
         }
     }
 
