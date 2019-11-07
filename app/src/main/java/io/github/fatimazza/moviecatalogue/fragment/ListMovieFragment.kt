@@ -34,9 +34,14 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
 
     private lateinit var searchView: SearchView
 
+    private var stateIsSearching = false
+    private var stateSearchQuery = ""
+
     companion object {
         private const val STATE_LOCALE = "state_locale"
         private const val STATE_LIST_MOVIE = "state_list_movie"
+        private const val STATE_IS_SEARCHING = "state_is_searching"
+        private const val STATE_SEARCH_QUERY = "state_search_query"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +69,9 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
             fetchMovieData()
         } else {
             val stateLocale = savedInstanceState.getString(STATE_LOCALE)
+            stateIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING, false)
+            stateSearchQuery = savedInstanceState.getString(STATE_SEARCH_QUERY, "")
+
             if (stateLocale != locale) {
                 fetchMovieData()
             } else {
@@ -84,6 +92,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE_LIST_MOVIE, listMovieAdapter.getData())
         outState.putString(STATE_LOCALE, locale)
+        outState.putBoolean(STATE_IS_SEARCHING, !searchView.isIconified)
+        outState.putString(STATE_SEARCH_QUERY, searchView.query.toString())
     }
 
     private fun initMovieViewModel() {
@@ -195,6 +205,12 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
         searchView.setOnQueryTextListener(this)
 
         searchItem.setOnActionExpandListener(this)
+
+        if (stateIsSearching) {
+            searchItem.expandActionView()
+            searchView.setQuery(stateSearchQuery, false)
+            searchView.clearFocus()
+        }
 
         super.onCreateOptionsMenu(menu, menuInflater)
     }
