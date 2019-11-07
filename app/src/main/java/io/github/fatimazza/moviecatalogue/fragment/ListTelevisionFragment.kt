@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -206,6 +207,9 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         searchView.setOnQueryTextListener(this)
 
         searchItem.setOnActionExpandListener(this)
+
+        val options = searchView.imeOptions
+        searchView.imeOptions = options or EditorInfo.IME_FLAG_NO_EXTRACT_UI
 
         if (stateIsSearching) {
             searchItem.expandActionView()
