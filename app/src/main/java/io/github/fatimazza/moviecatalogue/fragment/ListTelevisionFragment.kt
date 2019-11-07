@@ -34,9 +34,14 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
 
     private lateinit var searchView: SearchView
 
+    private var stateIsSearching = false
+    private var stateSearchQuery = ""
+
     companion object {
         private const val STATE_LOCALE = "state_locale"
         private const val STATE_LIST_TV = "state_list_tv"
+        private const val STATE_IS_SEARCHING = "state_is_searching"
+        private const val STATE_SEARCH_QUERY = "state_search_query"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +69,9 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
             fetchTelevisionData()
         } else {
             val stateLocale = savedInstanceState.getString(STATE_LOCALE)
+            stateIsSearching = savedInstanceState.getBoolean(STATE_IS_SEARCHING, false)
+            stateSearchQuery = savedInstanceState.getString(STATE_SEARCH_QUERY, "")
+
             if (stateLocale != locale) {
                 fetchTelevisionData()
             } else {
@@ -84,6 +92,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE_LIST_TV, listTelevisionAdapter.getData())
         outState.putString(STATE_LOCALE, locale)
+        outState.putBoolean(STATE_IS_SEARCHING, !searchView.isIconified)
+        outState.putString(STATE_SEARCH_QUERY, searchView.query.toString())
     }
 
     private fun initTvViewModel() {
@@ -196,6 +206,12 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         searchView.setOnQueryTextListener(this)
 
         searchItem.setOnActionExpandListener(this)
+
+        if (stateIsSearching) {
+            searchItem.expandActionView()
+            searchView.setQuery(stateSearchQuery, false)
+            searchView.clearFocus()
+        }
 
         super.onCreateOptionsMenu(menu, menuInflater)
     }
