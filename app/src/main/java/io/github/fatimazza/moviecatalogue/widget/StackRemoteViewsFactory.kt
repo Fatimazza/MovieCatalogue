@@ -45,13 +45,13 @@ class StackRemoteViewsFactory(private val context: Context) :
 
     override fun onDataSetChanged() {
         widgetItems.add(
-            BitmapFactory.decodeResource(context.resources, R.drawable.ic_movie)
+            BitmapFactory.decodeResource(context.resources, R.drawable.starwars_darth_vader)
         )
         widgetItems.add(
-            BitmapFactory.decodeResource(context.resources, R.drawable.ic_favorites)
+            BitmapFactory.decodeResource(context.resources, R.drawable.starwars_falcon)
         )
         widgetItems.add(
-            BitmapFactory.decodeResource(context.resources, R.drawable.ic_television)
+            BitmapFactory.decodeResource(context.resources, R.drawable.starwars_storm_trooper)
         )
     }
 
