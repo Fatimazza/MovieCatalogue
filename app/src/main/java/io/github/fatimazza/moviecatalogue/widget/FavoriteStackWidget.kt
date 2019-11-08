@@ -7,9 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.core.net.toUri
-
 import io.github.fatimazza.moviecatalogue.R
 
 /**
@@ -40,24 +38,22 @@ class FavoriteStackWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
         Log.d("Izza", "onReceive ${intent.action}")
 
-        if (intent.action != null) {
-            if (intent.action == TOAST_ACTION) {
-                val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
-                Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
+        val ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+        if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS)) {
+            for (appWidgetId in ids) {
+                updateAppWidget(context, AppWidgetManager.getInstance(context), appWidgetId)
             }
         }
     }
 
     companion object {
-
         private const val TOAST_ACTION = "io.github.fatimazza.moviecatalogue.widget.TOAST_ACTION"
         const val EXTRA_ITEM = "io.github.fatimazza.moviecatalogue.widget.EXTRA_ITEM"
 
-        internal fun updateAppWidget(
+        fun updateAppWidget(
             context: Context, appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
-
             Log.d("Izza", "updateAppWidget")
 
             val intent = Intent(context, FavoriteStackWidgetService::class.java)
@@ -82,6 +78,7 @@ class FavoriteStackWidget : AppWidgetProvider() {
 
             // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views)
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.stack_view)
         }
     }
 }

@@ -23,6 +23,9 @@ interface FavoriteDatabaseDao {
     @Query("SELECT * FROM fav_movie_table ORDER BY favMovieId DESC")
     fun getAllMovies(): LiveData<List<FavoriteMovie>>
 
+    @Query("SELECT * FROM fav_movie_table ORDER BY favMovieId DESC")
+    fun getAllMoviesForWidget(): List<FavoriteMovie>
+
     @Query("SELECT * FROM fav_tv_table ORDER BY favTvId DESC")
     fun getAllTvShows(): LiveData<List<FavoriteTv>>
 
