@@ -4,7 +4,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
+import androidx.core.net.toUri
 
 import io.github.fatimazza.moviecatalogue.R
 
@@ -46,10 +48,17 @@ class FavoriteStackWidget : AppWidgetProvider() {
             appWidgetId: Int
         ) {
 
-            val widgetText = context.getString(R.string.widget_fav_title)
-            // Construct the RemoteViews object
+            Log.d("Izza", "updateAppWidget")
+
+            val intent = Intent(context, FavoriteStackWidget::class.java)
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()
+
+            // Install Remote Adapter to Widget using Intent object & stack_view as RemoteView Id
             val views = RemoteViews(context.packageName, R.layout.favorite_stack_widget)
-            views.setTextViewText(R.id.empty_view, widgetText)
+            // Construct the RemoteViews object
+            views.setRemoteAdapter(R.id.stack_view, intent)
+            views.setEmptyView(R.id.stack_view, R.id.empty_view)
 
             // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(appWidgetId, views)
