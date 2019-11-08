@@ -19,7 +19,7 @@
     <string name="favorite_error">Can\'t add to favorite</string>
     <string name="search_hint">Search film / tv show</string>
 
-    <string name="widget_fav_title" translatable="false">Favorite Stack Widget</string>
+    <string name="widget_fav_title">Your Favorite Movie &amp; Tv</string>
     <string name="widget_fav_empty" translatable="false">No Favorites</string>
 
 </resources>

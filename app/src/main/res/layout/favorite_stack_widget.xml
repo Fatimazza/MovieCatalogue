@@ -26,8 +26,8 @@
             android:background="@android:color/transparent"
             android:text="@string/widget_fav_title"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <TextView
