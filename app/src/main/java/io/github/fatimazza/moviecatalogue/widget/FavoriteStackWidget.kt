@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.core.net.toUri
 
 import io.github.fatimazza.moviecatalogue.R
@@ -37,6 +38,14 @@ class FavoriteStackWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+        Log.d("Izza", "onReceive ${intent.action}")
+
+        if (intent.action != null) {
+            if (intent.action == TOAST_ACTION) {
+                val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
+                Toast.makeText(context, "Touched view $viewIndex", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {
