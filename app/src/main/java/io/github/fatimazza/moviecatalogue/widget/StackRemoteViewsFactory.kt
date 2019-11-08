@@ -1,10 +1,13 @@
 package io.github.fatimazza.moviecatalogue.widget
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.core.os.bundleOf
 import io.github.fatimazza.moviecatalogue.R
 
 class StackRemoteViewsFactory(private val context: Context) :
@@ -25,7 +28,17 @@ class StackRemoteViewsFactory(private val context: Context) :
     override fun getViewTypeCount(): Int = 1
 
     override fun getViewAt(position: Int): RemoteViews {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val rv = RemoteViews(context.packageName, R.layout.item_favorite_widget)
+        rv.setImageViewBitmap(R.id.ivImageWidget, widgetItems[position])
+
+        val extras = bundleOf(FavoriteStackWidget.EXTRA_ITEM to position)
+        val fillInIntent = Intent()
+        fillInIntent.putExtras(extras)
+
+        Log.d("Izza", "create intent ${extras.get(FavoriteStackWidget.EXTRA_ITEM)}")
+
+        rv.setOnClickFillInIntent(R.id.ivImageWidget, fillInIntent)
+        return rv
     }
 
     override fun getCount(): Int = widgetItems.size
