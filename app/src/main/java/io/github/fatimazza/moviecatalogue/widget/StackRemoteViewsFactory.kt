@@ -1,9 +1,16 @@
 package io.github.fatimazza.moviecatalogue.widget
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import io.github.fatimazza.moviecatalogue.R
 
-class StackRemoteViewsFactory : RemoteViewsService.RemoteViewsFactory {
+class StackRemoteViewsFactory(private val context: Context) :
+    RemoteViewsService.RemoteViewsFactory {
+
+    private val widgetItems = ArrayList<Bitmap>()
 
     override fun onCreate() {
 
@@ -21,12 +28,18 @@ class StackRemoteViewsFactory : RemoteViewsService.RemoteViewsFactory {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCount(): Int = widgetItems.size
 
     override fun onDataSetChanged() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        widgetItems.add(
+            BitmapFactory.decodeResource(context.resources, R.drawable.ic_movie)
+        )
+        widgetItems.add(
+            BitmapFactory.decodeResource(context.resources, R.drawable.ic_favorites)
+        )
+        widgetItems.add(
+            BitmapFactory.decodeResource(context.resources, R.drawable.ic_television)
+        )
     }
 
     override fun onDestroy() {
