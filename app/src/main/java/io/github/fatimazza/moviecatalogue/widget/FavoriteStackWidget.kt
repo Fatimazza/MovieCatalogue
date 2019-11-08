@@ -3,6 +3,7 @@ package io.github.fatimazza.moviecatalogue.widget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 
 import io.github.fatimazza.moviecatalogue.R
@@ -31,7 +32,14 @@ class FavoriteStackWidget : AppWidgetProvider() {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+    }
+
     companion object {
+
+        private const val TOAST_ACTION = "io.github.fatimazza.moviecatalogue.widget.TOAST_ACTION"
+        const val EXTRA_ITEM = "io.github.fatimazza.moviecatalogue.widget.EXTRA_ITEM"
 
         internal fun updateAppWidget(
             context: Context, appWidgetManager: AppWidgetManager,
