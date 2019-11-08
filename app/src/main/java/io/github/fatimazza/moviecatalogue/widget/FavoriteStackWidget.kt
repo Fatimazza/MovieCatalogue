@@ -60,7 +60,7 @@ class FavoriteStackWidget : AppWidgetProvider() {
 
             Log.d("Izza", "updateAppWidget")
 
-            val intent = Intent(context, FavoriteStackWidget::class.java)
+            val intent = Intent(context, FavoriteStackWidgetService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()
 
