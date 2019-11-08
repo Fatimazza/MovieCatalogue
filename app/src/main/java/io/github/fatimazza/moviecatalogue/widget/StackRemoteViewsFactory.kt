@@ -6,24 +6,16 @@ import android.widget.RemoteViewsService
 class StackRemoteViewsFactory : RemoteViewsService.RemoteViewsFactory {
 
     override fun onCreate() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
-    override fun hasStableIds(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun hasStableIds(): Boolean = false
 
-    override fun getLoadingView(): RemoteViews {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getLoadingView(): RemoteViews? = null
 
-    override fun getItemId(i: Int): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getItemId(i: Int): Long = 0
 
-    override fun getViewTypeCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getViewTypeCount(): Int = 1
 
     override fun getViewAt(position: Int): RemoteViews {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -38,7 +30,7 @@ class StackRemoteViewsFactory : RemoteViewsService.RemoteViewsFactory {
     }
 
     override fun onDestroy() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
 }
