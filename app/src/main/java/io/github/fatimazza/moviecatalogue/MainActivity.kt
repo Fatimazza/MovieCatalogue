@@ -82,9 +82,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_settings) {
-            val intentSettings = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(intentSettings)
+        when (item.itemId) {
+            R.id.action_settings -> {
+                val intentSettings = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                startActivity(intentSettings)
+            }
+            R.id.action_reminder -> {
+                val intentReminder = Intent(this, ReminderActivity::class.java)
+                startActivity(intentReminder)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
