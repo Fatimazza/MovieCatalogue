@@ -10,6 +10,7 @@
     <string name="menu_settings">Pengaturan</string>
     <string name="menu_favorite">Favorit</string>
     <string name="menu_search">Cari</string>
+    <string name="menu_reminder">Pengingat</string>
 
     <string name="list_load_failed">Gagal memuat.</string>
     <string name="list_retry_button">Coba Lagi</string>
