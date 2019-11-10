@@ -28,6 +28,7 @@
                 android:resource="@xml/favorite_stack_widget_info" />
         </receiver>
 
+        <activity android:name=".ReminderActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
