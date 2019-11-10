@@ -2,7 +2,6 @@ package io.github.fatimazza.moviecatalogue.widget
 
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
 import android.os.Bundle
 import android.util.Log
 import android.widget.RemoteViews
@@ -22,14 +21,7 @@ class StackRemoteViewsFactory(private val context: Context) :
     private val widgetItems = ArrayList<FavoriteMovie>()
 
     override fun onCreate() {
-        GlobalScope.launch {
-            context.let {
-                val allFavMovies =
-                    FavoriteDatabase.getInstance(it).favoriteDatabaseDao.getAllMoviesForWidget()
-                Log.d("Izza", "onCreate " + allFavMovies.size)
-                widgetItems.addAll(allFavMovies)
-            }
-        }
+        Log.d("Izza", "onCreate")
     }
 
     override fun hasStableIds(): Boolean = false
@@ -68,17 +60,17 @@ class StackRemoteViewsFactory(private val context: Context) :
     override fun getCount(): Int = widgetItems.size
 
     override fun onDataSetChanged() {
-        val identityToken = Binder.clearCallingIdentity()
         GlobalScope.launch {
             context.let {
                 widgetItems.clear()
                 val allFavMovies =
                     FavoriteDatabase.getInstance(it).favoriteDatabaseDao.getAllMoviesForWidget()
                 Log.d("Izza", "onDataSetChanged " + allFavMovies.size)
-                widgetItems.addAll(allFavMovies)
+                allFavMovies.forEach { movie ->
+                    widgetItems.add(movie)
+                }
             }
         }
-        Binder.restoreCallingIdentity(identityToken)
     }
 
     override fun onDestroy() {
