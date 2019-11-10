@@ -18,6 +18,7 @@
     <string name="favorite_error">Tidak dapat menambah favorit</string>
     <string name="search_hint">Cari film / acara tv</string>
 
-    <string name="widget_fav_title">Film &amp; Tv Favorit Anda</string>
+    <string name="widget_fav_title">Film Favorit Anda</string>
+    <string name="widget_fav_empty">Belum Ada Film Favorit</string>
 
 </resources>
