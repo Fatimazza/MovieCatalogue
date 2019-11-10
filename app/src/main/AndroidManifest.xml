@@ -16,6 +16,11 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <service
+            android:name=".widget.UpdateFavoriteService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
             android:name=".widget.FavoriteStackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
