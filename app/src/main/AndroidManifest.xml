@@ -19,6 +19,11 @@
             android:name=".widget.FavoriteStackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <receiver
+            android:name=".receiver.DailyReminderAlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <receiver android:name=".widget.FavoriteStackWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
