@@ -30,4 +30,7 @@
     <string name="reminder_on">Nyala</string>
     <string name="reminder_off">Mati</string>
 
+    <string name="reminder_daily_notif_title">Movie Catalogue</string>
+    <string name="reminder_daily_notif_desc">Lihat sesuatu yang baru di Movie Catalogue!</string>
+
 </resources>

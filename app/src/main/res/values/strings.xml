@@ -31,4 +31,7 @@
     <string name="reminder_on">On</string>
     <string name="reminder_off">Off</string>
 
+    <string name="reminder_daily_notif_title">Movie Catalogue</string>
+    <string name="reminder_daily_notif_desc">Check what\'s new on Movie Catalogue!</string>
+
 </resources>
