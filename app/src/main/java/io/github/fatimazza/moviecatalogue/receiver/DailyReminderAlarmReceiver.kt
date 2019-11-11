@@ -11,8 +11,16 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import io.github.fatimazza.moviecatalogue.BuildConfig
 import io.github.fatimazza.moviecatalogue.MainActivity
 import io.github.fatimazza.moviecatalogue.R
+import io.github.fatimazza.moviecatalogue.model.BaseResponse
+import io.github.fatimazza.moviecatalogue.model.MovieResponse
+import io.github.fatimazza.moviecatalogue.network.NetworkConfig
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DailyReminderAlarmReceiver : BroadcastReceiver() {
@@ -27,8 +35,10 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     var dailyAlarm: AlarmManager? = null
+    var releaseAlarm: AlarmManager? = null
 
     var dailyPendingIntent: PendingIntent? = null
+    var releasePendingIntent: PendingIntent? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
@@ -42,6 +52,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                 showAlarmNotification(context, title ?: "", message ?: "")
             }
             ID_RELEASE -> {
+                getMovieReleasedToday(context)
             }
         }
     }
@@ -69,6 +80,31 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
     fun stopDailyAlarm() {
         dailyAlarm?.cancel(dailyPendingIntent)
+    }
+
+    fun startReleaseAlarm(context: Context, title: String, message: String) {
+        releaseAlarm = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, DailyReminderAlarmReceiver::class.java)
+        intent.putExtra(EXTRA_NOTIF_TITLE, title)
+        intent.putExtra(EXTRA_NOTIF_MESSAGE, message)
+        intent.putExtra(EXTRA_NOTIF_TYPE, ID_RELEASE)
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 7)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+
+        releasePendingIntent = PendingIntent.getBroadcast(context, ID_RELEASE, intent, 0)
+        releaseAlarm?.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            releasePendingIntent
+        )
+    }
+
+    fun stopReleaseAlarm() {
+        releaseAlarm?.cancel(releasePendingIntent)
     }
 
     private fun showAlarmNotification(context: Context, title: String, message: String) {
@@ -159,4 +195,43 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    private fun getMovieReleasedToday(context: Context) {
+        val df = SimpleDateFormat("yyyy-mm-dd", Locale.US)
+        val now = df.format(Date())
+        NetworkConfig.api().checkMovieReleasedToday(BuildConfig.API_KEY, now, now)
+            .enqueue(object : Callback<BaseResponse<MovieResponse>> {
+                override fun onFailure(call: Call<BaseResponse<MovieResponse>>, t: Throwable) {
+                    showAlarmNotification(
+                        context,
+                        context.getString(R.string.reminder_release_nodata),
+                        t.message ?: ""
+                    )
+                }
+
+                override fun onResponse(
+                    call: Call<BaseResponse<MovieResponse>>,
+                    response: Response<BaseResponse<MovieResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.results?.let {
+                            if (it.isNotEmpty()) {
+                                showAlarmNotification(context, it[0].title, it[0].overview)
+                            } else {
+                                showAlarmNotification(
+                                    context,
+                                    context.getString(R.string.reminder_release_nodata),
+                                    context.getString(R.string.reminder_release_nodata_desc)
+                                )
+                            }
+                        } ?: run {
+                            showAlarmNotification(
+                                context,
+                                context.getString(R.string.reminder_release_nodata),
+                                context.getString(R.string.reminder_release_nodata_desc)
+                            )
+                        }
+                    }
+                }
+            })
+    }
 }

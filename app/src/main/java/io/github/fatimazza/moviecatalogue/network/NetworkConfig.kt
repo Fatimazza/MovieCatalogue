@@ -80,4 +80,11 @@ interface MovieAPIService {
     fun searchMovie(@Query("api_key") apiKey: String, @Query("language") language: String, @Query("query") query: String)
             : Call<BaseResponse<MovieResponse>>
 
+    @GET("discover/movie")
+    fun checkMovieReleasedToday(
+        @Query("api_key") apiKey: String,
+        @Query("primary_release_date.gte") primaryReleaseDateGte: String,
+        @Query("primary_release_date.lte") primaryReleaseDateLte: String
+    ): Call<BaseResponse<MovieResponse>>
+
 }

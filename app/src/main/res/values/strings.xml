@@ -33,5 +33,7 @@
 
     <string name="reminder_daily_notif_title">Movie Catalogue</string>
     <string name="reminder_daily_notif_desc">Check what\'s new on Movie Catalogue!</string>
+    <string name="reminder_release_nodata">No movie released on this day</string>
+    <string name="reminder_release_nodata_desc">No data</string>
 
 </resources>

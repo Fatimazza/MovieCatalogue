@@ -15,9 +15,13 @@ class ReminderActivity : AppCompatActivity() {
 
         release_switch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-
+                alarmReceiver.startReleaseAlarm(
+                    this,
+                    getString(R.string.reminder_daily_notif_title),
+                    getString(R.string.reminder_daily_notif_desc)
+                )
             } else {
-
+                alarmReceiver.stopReleaseAlarm()
             }
         }
 

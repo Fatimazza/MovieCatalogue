@@ -32,5 +32,7 @@
 
     <string name="reminder_daily_notif_title">Movie Catalogue</string>
     <string name="reminder_daily_notif_desc">Lihat sesuatu yang baru di Movie Catalogue!</string>
+    <string name="reminder_release_nodata">Tidak ada film yang dirilis hari ini</string>
+    <string name="reminder_release_nodata_desc">Tidak ada data</string>
 
 </resources>
