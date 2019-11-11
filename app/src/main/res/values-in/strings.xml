@@ -22,4 +22,12 @@
     <string name="widget_fav_title">Film Favorit Anda</string>
     <string name="widget_fav_empty">Belum Ada Film Favorit</string>
 
+    <string name="reminder_title">Pengingat</string>
+    <string name="reminder_daily_title">Pengingat Harian</string>
+    <string name="reminder_daily_desc">Mengingatkan Anda kembali ke aplikasi</string>
+    <string name="reminder_release_title">Pengingat Rilis</string>
+    <string name="reminder_release_desc">Pengingat untuk Film yang rilis hari ini</string>
+    <string name="reminder_on">Nyala</string>
+    <string name="reminder_off">Mati</string>
+
 </resources>

@@ -22,14 +22,13 @@
 
     <string name="widget_fav_title">Your Favorite Movies</string>
     <string name="widget_fav_empty">No Favorites</string>
-    
-    <string name="one_time_alarm">One Time Alarm</string>
-    <string name="alarm_date">Tanggal Alarm</string>
-    <string name="set_one_time_alarm">Set One Time Alarm</string>
-    <string name="alarm_message">Pesan Alarm</string>
-    <string name="repeating_alarm">Repeating Alarm</string>
-    <string name="set_repeating_alarm">Set Repeating Alarm</string>
-    <string name="cancel_alarm">Batalkan Alarm</string>
-    <string name="alarm_time">Waktu Alarm</string>
+
+    <string name="reminder_title">Reminder</string>
+    <string name="reminder_daily_title">Daily Reminder</string>
+    <string name="reminder_daily_desc">Remind you return to the app</string>
+    <string name="reminder_release_title">Release Reminder</string>
+    <string name="reminder_release_desc">Reminder showing today\'s release Movie</string>
+    <string name="reminder_on">On</string>
+    <string name="reminder_off">Off</string>
 
 </resources>
