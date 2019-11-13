@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.fatimazza.myfavoritemovies">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="io.github.fatimazza.moviecatalogue.READ_DATABASE" />
+    <uses-permission android:name="io.github.fatimazza.moviecatalogue.WRITE_DATABASE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
