@@ -1,4 +1,4 @@
-package io.github.fatimazza.myfavoritemovies
+package io.github.fatimazza.myfavoritemovies.movies
 
 
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import io.github.fatimazza.myfavoritemovies.R
 
 /**
  * A simple [Fragment] subclass.
@@ -19,5 +20,5 @@ class FavoriteMovieFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite_movie, container, false)
     }
-    
+
 }

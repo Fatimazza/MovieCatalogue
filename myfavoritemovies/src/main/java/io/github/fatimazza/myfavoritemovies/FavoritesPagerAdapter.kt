@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import io.github.fatimazza.myfavoritemovies.movies.FavoriteMovieFragment
 
 class FavoritesPagerAdapter(fm: FragmentManager, context: Context) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
