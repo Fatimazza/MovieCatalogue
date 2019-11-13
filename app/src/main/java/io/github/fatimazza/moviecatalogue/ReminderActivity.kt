@@ -48,6 +48,7 @@ class ReminderActivity : AppCompatActivity() {
     }
 
     private fun showExistingPreference() {
+        reminderPreference = ReminderPreference(this)
         reminderModel = reminderPreference.getReminder()
         daily_switch.isChecked = reminderModel.isdailyReminderActive
         release_switch.isChecked = reminderModel.isreleaseReminderActive
