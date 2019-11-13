@@ -30,7 +30,7 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopReleaseAlarm()
             }
-            saveReminder(release_switch.isChecked, daily_switch.isChecked)
+            saveReminder(daily_switch.isChecked, release_switch.isChecked)
         }
 
         daily_switch.setOnCheckedChangeListener { _, isChecked ->
@@ -43,7 +43,7 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopDailyAlarm()
             }
-            saveReminder(release_switch.isChecked, daily_switch.isChecked)
+            saveReminder(daily_switch.isChecked, release_switch.isChecked)
         }
     }
 
