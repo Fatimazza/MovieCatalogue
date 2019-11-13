@@ -45,6 +45,11 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
         fetchFavoriteMovieData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        favMovieViewModel.getFavouriteMovies()
+    }
+
     private fun initFavoriteMovieViewModel() {
         favMovieViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }

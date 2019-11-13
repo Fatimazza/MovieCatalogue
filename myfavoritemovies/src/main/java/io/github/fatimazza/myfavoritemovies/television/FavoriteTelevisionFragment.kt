@@ -45,6 +45,11 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
         fetchFavoriteTelevisionData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        favTelevisionViewModel.getFavouriteTvs()
+    }
+
     private fun initFavoriteTelevisionViewModel() {
         favTelevisionViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
