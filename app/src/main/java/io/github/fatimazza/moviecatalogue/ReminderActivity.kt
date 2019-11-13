@@ -2,14 +2,21 @@ package io.github.fatimazza.moviecatalogue
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import io.github.fatimazza.moviecatalogue.model.SPReminderModel
 import io.github.fatimazza.moviecatalogue.receiver.DailyReminderAlarmReceiver
+import io.github.fatimazza.moviecatalogue.utils.ReminderPreference
 import kotlinx.android.synthetic.main.activity_reminder.*
 
 class ReminderActivity : AppCompatActivity() {
 
+    private lateinit var reminderPreference: ReminderPreference
+    private lateinit var reminderModel: SPReminderModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reminder)
+
+        showExistingPreference()
 
         val alarmReceiver = DailyReminderAlarmReceiver()
 
@@ -23,6 +30,7 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopReleaseAlarm()
             }
+            saveReminder(release_switch.isChecked, daily_switch.isChecked)
         }
 
         daily_switch.setOnCheckedChangeListener { _, isChecked ->
@@ -35,6 +43,22 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopDailyAlarm()
             }
+            saveReminder(release_switch.isChecked, daily_switch.isChecked)
         }
+    }
+
+    private fun showExistingPreference() {
+        reminderModel = reminderPreference.getReminder()
+        daily_switch.isChecked = reminderModel.isdailyReminderActive
+        release_switch.isChecked = reminderModel.isreleaseReminderActive
+    }
+
+    private fun saveReminder(
+        hasDailyReminder: Boolean, hasReleaseReminder: Boolean
+    ) {
+        val reminderPreference = ReminderPreference(this)
+        reminderModel.isdailyReminderActive = hasDailyReminder
+        reminderModel.isreleaseReminderActive = hasReleaseReminder
+        reminderPreference.setReminder(reminderModel)
     }
 }
