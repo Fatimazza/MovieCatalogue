@@ -15,6 +15,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <provider
+            android:name=".database.FavoriteProvider"
+            android:authorities="io.github.fatimazza.moviecatalogue"
+            android:enabled="true"
+            android:exported="true" />
+
         <service
             android:name=".widget.FavoriteStackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
