@@ -6,8 +6,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class FavoriteMovie(
 
-    var favMovieId: Long = 0L,
-
     var movieId: String = "",
 
     var movieTitle: String = "",
