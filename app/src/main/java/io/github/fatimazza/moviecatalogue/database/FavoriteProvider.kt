@@ -23,6 +23,11 @@ class FavoriteProvider : ContentProvider() {
         private const val FAVORITE_MOVIE = "fav_movie_table"
         private const val FAVORITE_TELEVISION = "fav_tv_table"
 
+        val MOVIE_CONTENT_URI: Uri =
+            Uri.parse("content://$AUTHORITY/$DATABASE/$FAVORITE_MOVIE")
+        val TV_CONTENT_URI: Uri =
+            Uri.parse("content://$AUTHORITY/$DATABASE/$FAVORITE_TELEVISION")
+
         private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
         init {
@@ -74,7 +79,7 @@ class FavoriteProvider : ContentProvider() {
                     )
                     id = favoriteDao.insertMovieCursor(data)
 
-                    //context?.contentResolver?.notifyChange(CONTENT_TYPE_MOVIE, null)
+                    context?.contentResolver?.notifyChange(MOVIE_CONTENT_URI, null)
                     _uri = ContentUris.withAppendedId(uri, id)
                 }
             }
@@ -94,7 +99,7 @@ class FavoriteProvider : ContentProvider() {
 
                     id = favoriteDao.insertTvShowCursor(data)
 
-                    //context?.contentResolver?.notifyChange(CONTENT_URI2, null)
+                    context?.contentResolver?.notifyChange(TV_CONTENT_URI, null)
                     _uri = ContentUris.withAppendedId(uri, id)
                 }
             }
