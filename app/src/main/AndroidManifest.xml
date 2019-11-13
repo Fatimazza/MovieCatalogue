@@ -5,6 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="io.github.fatimazza.moviecatalogue.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="io.github.fatimazza.moviecatalogue.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +26,9 @@
             android:name=".database.FavoriteProvider"
             android:authorities="io.github.fatimazza.moviecatalogue"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:readPermission="io.github.fatimazza.moviecatalogue.READ_DATABASE"
+            android:writePermission="io.github.fatimazza.moviecatalogue.WRITE_DATABASE" />
 
         <service
             android:name=".widget.FavoriteStackWidgetService"
