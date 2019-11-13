@@ -8,7 +8,7 @@
     <string name="menu_tv_show">Tv Show</string>
 
     <string name="list_movie_description_empty">No description yet.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="list_load_failed">Load failed.</string>
+    <string name="list_retry_button">Retry</string>
+    <string name="list_favorite_empty">No favorite yet.</string>
 </resources>
