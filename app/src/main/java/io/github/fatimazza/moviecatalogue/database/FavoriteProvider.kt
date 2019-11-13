@@ -12,27 +12,23 @@ import io.github.fatimazza.moviecatalogue.BuildConfig
 class FavoriteProvider : ContentProvider() {
 
     lateinit var favoriteDao: FavoriteDatabaseDao
-    val uriMatcher: UriMatcher
 
     companion object {
-        const val MOVIE = 100
-        const val MOVIE_ID = 102
-        const val TV = 101
-        const val TV_ID = 103
-        val CONTENT_URI1 = Uri.parse("content://${BuildConfig.PROVIDER_NAME}/movie")
-        val CONTENT_URI2 = Uri.parse("content://${BuildConfig.PROVIDER_NAME}/tv")
-    }
 
-    init {
-        uriMatcher = UriMatcher(UriMatcher.NO_MATCH);
+        private const val AUTHORITY = BuildConfig.PROVIDER_NAME
+        private const val DATABASE = "favorite_movie_database"
+        private const val CONTENT_TYPE_MOVIE = 1
+        private const val CONTENT_TYPE_TV = 2
 
-        // content://io.github.fatimazza.moviecatalogue/movie
-        uriMatcher.addURI(BuildConfig.PROVIDER_NAME, "movie", MOVIE);
-        // content://io.github.fatimazza.moviecatalogue/movie/id
-        uriMatcher.addURI(BuildConfig.PROVIDER_NAME, "movie/#", MOVIE_ID);
+        private const val FAVORITE_MOVIE = "fav_movie_table"
+        private const val FAVORITE_TELEVISION = "fav_tv_table"
 
-        uriMatcher.addURI(BuildConfig.PROVIDER_NAME, "tv", TV);
-        uriMatcher.addURI(BuildConfig.PROVIDER_NAME, "tv/#", TV_ID);
+        private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+
+        init {
+            uriMatcher.addURI(AUTHORITY, "$DATABASE/$FAVORITE_MOVIE", CONTENT_TYPE_MOVIE)
+            uriMatcher.addURI(AUTHORITY, "$DATABASE/$FAVORITE_TELEVISION", CONTENT_TYPE_TV)
+        }
     }
 
     override fun onCreate(): Boolean {
@@ -48,17 +44,11 @@ class FavoriteProvider : ContentProvider() {
         sortOrder: String?
     ): Cursor? {
         when (uriMatcher.match(uri)) {
-            MOVIE -> {
+            CONTENT_TYPE_MOVIE -> {
                 return favoriteDao.getAllMoviesCursor()
             }
-            TV -> {
+            CONTENT_TYPE_TV -> {
                 return favoriteDao.getAllTvShowsCursor()
-            }
-            MOVIE_ID -> {
-                return favoriteDao.getFavMovieCursor(uri.lastPathSegment!!.toLong())
-            }
-            TV_ID -> {
-                return favoriteDao.getFavTvShowCursor(uri.lastPathSegment!!.toLong())
             }
             else -> {
                 throw SQLException("Failed insert rom into $uri")
@@ -69,7 +59,7 @@ class FavoriteProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         var _uri: Uri? = null
         when (uriMatcher.match(uri)) {
-            MOVIE_ID -> {
+            CONTENT_TYPE_MOVIE -> {
                 var id = 0L
                 values?.apply {
                     val data = FavoriteMovie(
@@ -84,11 +74,11 @@ class FavoriteProvider : ContentProvider() {
                     )
                     id = favoriteDao.insertMovieCursor(data)
 
-                    context?.contentResolver?.notifyChange(CONTENT_URI1, null)
+                    //context?.contentResolver?.notifyChange(CONTENT_TYPE_MOVIE, null)
                     _uri = ContentUris.withAppendedId(uri, id)
                 }
             }
-            TV_ID -> {
+            CONTENT_TYPE_TV -> {
                 var id = 0L
                 values?.apply {
                     val data = FavoriteTv(
@@ -104,7 +94,7 @@ class FavoriteProvider : ContentProvider() {
 
                     id = favoriteDao.insertTvShowCursor(data)
 
-                    context?.contentResolver?.notifyChange(CONTENT_URI2, null)
+                    //context?.contentResolver?.notifyChange(CONTENT_URI2, null)
                     _uri = ContentUris.withAppendedId(uri, id)
                 }
             }
@@ -118,11 +108,11 @@ class FavoriteProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         //TODO return
         when (uriMatcher.match(uri)) {
-            MOVIE_ID -> {
+            CONTENT_TYPE_MOVIE -> {
                 favoriteDao.deleteFavMovie(uri.lastPathSegment?.toLong() ?: 0)
                 return 0
             }
-            TV_ID -> {
+            CONTENT_TYPE_TV -> {
                 favoriteDao.deleteFavTvShow(uri.lastPathSegment?.toLong() ?: 0)
                 return 0
             }

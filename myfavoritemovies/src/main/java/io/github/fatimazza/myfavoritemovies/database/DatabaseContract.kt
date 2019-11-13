@@ -1,10 +1,11 @@
 package io.github.fatimazza.myfavoritemovies.database
 
 import android.net.Uri
+import io.github.fatimazza.myfavoritemovies.BuildConfig
 
 object DatabaseContract {
 
-    private const val AUTHORITY = "io.github.fatimazza.moviecatalogue"
+    private const val AUTHORITY = BuildConfig.PROVIDER_NAME
     private const val DATABASE = "favorite_movie_database"
 
     private const val FAV_MOVIE_TABLE = "fav_movie_table"
