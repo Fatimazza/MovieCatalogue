@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
 
-
     defaultConfig {
         applicationId "io.github.fatimazza.myfavoritemovies"
         minSdkVersion 21
@@ -13,6 +12,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", BASE_URL)
+        buildConfigField("String", "POSTER_BASE_URL", POSTER_BASE_URL)
     }
 
     buildTypes {
@@ -22,6 +24,9 @@ android {
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
