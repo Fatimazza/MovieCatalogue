@@ -196,7 +196,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun getMovieReleasedToday(context: Context) {
-        val df = SimpleDateFormat("yyyy-mm-dd", Locale.US)
+        val df = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val now = df.format(Date())
         NetworkConfig.api().checkMovieReleasedToday(BuildConfig.API_KEY, now, now)
             .enqueue(object : Callback<BaseResponse<MovieResponse>> {
