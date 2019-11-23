@@ -160,9 +160,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .build()
             )
-
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        } else {
             notificationManager.notify(
                 System.currentTimeMillis().toInt(),
                 NotificationCompat.Builder(context, System.currentTimeMillis().toString())
@@ -183,20 +181,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
                     .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                    .build()
-            )
-        } else {
-            notificationManager.notify(
-                System.currentTimeMillis().toInt(), NotificationCompat.Builder(context, "1")
-                    .setContentTitle(title)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(message))
-                    .setContentText(message)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(false)
-                    .setAutoCancel(true)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .build()
             )
         }
