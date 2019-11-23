@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import io.github.fatimazza.moviecatalogue.BuildConfig
@@ -16,6 +17,7 @@ import io.github.fatimazza.moviecatalogue.MainActivity
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.model.BaseResponse
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
+import io.github.fatimazza.moviecatalogue.model.NotificationItem
 import io.github.fatimazza.moviecatalogue.network.NetworkConfig
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +34,9 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
         private const val ID_DAILY = 100
         private const val ID_RELEASE = 101
+
+        private const val MAX_RELEASE_NOTIFICATION = 1
+        private var idReleaseNotification = 0
     }
 
     var dailyAlarm: AlarmManager? = null
@@ -39,6 +44,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
     var dailyPendingIntent: PendingIntent? = null
     var releasePendingIntent: PendingIntent? = null
+
+    private val stackNotif = ArrayList<NotificationItem>()
 
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
@@ -195,6 +202,162 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    private fun showReleaseNotification(context: Context) {
+
+        Log.d("Izza", "Release Notif - - -")
+
+        val CHANNEL_ID = "Channel_1"
+        val CHANNEL_NAME = "Movie Channel"
+
+        val GROUP_KEY_RELEASES = "group_key_releases"
+
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val intent = Intent(context, MainActivity::class.java)
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT
+        )
+
+        val title = stackNotif[idReleaseNotification].releasedMovieTitle
+        val message = stackNotif[idReleaseNotification].releasedMovieDesc
+
+        if (idReleaseNotification < MAX_RELEASE_NOTIFICATION) {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    val notificationChannel = NotificationChannel(
+                        CHANNEL_ID,
+                        CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                    notificationChannel.lightColor =
+                        ContextCompat.getColor(context, R.color.colorPrimary)
+
+                    notificationManager.createNotificationChannel(notificationChannel)
+                    notificationManager.notify(
+                        System.currentTimeMillis().toInt(),
+                        NotificationCompat.Builder(context, CHANNEL_ID)
+                            .setChannelId(CHANNEL_ID)
+                            .setContentTitle(title)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                            .setContentText(message)
+                            .setSmallIcon(R.drawable.ic_movie_notification)
+                            .setLargeIcon(
+                                BitmapFactory.decodeResource(
+                                    context.resources,
+                                    R.drawable.ic_movie_notification
+                                )
+                            )
+                            .setContentIntent(pendingIntent)
+                            .setGroup(GROUP_KEY_RELEASES)
+                            .setAutoCancel(true)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .build()
+                    )
+                }
+                else -> {
+                    notificationManager.notify(
+                        System.currentTimeMillis().toInt(),
+                        NotificationCompat.Builder(context, System.currentTimeMillis().toString())
+                            .setContentTitle(title)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                            .setContentText(message)
+                            .setSmallIcon(R.drawable.ic_movie_notification)
+                            .setLargeIcon(
+                                BitmapFactory.decodeResource(
+                                    context.resources,
+                                    R.drawable.ic_movie_notification
+                                )
+                            )
+                            .setContentIntent(pendingIntent)
+                            .setGroup(GROUP_KEY_RELEASES)
+                            .setOngoing(false)
+                            .setAutoCancel(true)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .build()
+                    )
+
+                }
+            }
+        } else {
+            val inboxTitle = "$idReleaseNotification new releases"
+            val inboxMessage = "Movie Catalogue"
+
+            val inboxStyle = NotificationCompat.InboxStyle()
+                .addLine("New Movie Release: " + stackNotif[idReleaseNotification].releasedMovieTitle)
+                .addLine("New Movie Release: " + stackNotif[idReleaseNotification - 1].releasedMovieTitle)
+                .setBigContentTitle("$idReleaseNotification new releases")
+                .setSummaryText(inboxMessage)
+
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    val notificationChannel = NotificationChannel(
+                        CHANNEL_ID,
+                        CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                    notificationChannel.lightColor =
+                        ContextCompat.getColor(context, R.color.colorPrimary)
+
+                    notificationManager.createNotificationChannel(notificationChannel)
+                    notificationManager.notify(
+                        System.currentTimeMillis().toInt(),
+                        NotificationCompat.Builder(context, CHANNEL_ID)
+                            .setChannelId(CHANNEL_ID)
+                            .setContentTitle(inboxTitle)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                            .setContentText(inboxMessage)
+                            .setSmallIcon(R.drawable.ic_movie_notification)
+                            .setLargeIcon(
+                                BitmapFactory.decodeResource(
+                                    context.resources,
+                                    R.drawable.ic_movie_notification
+                                )
+                            )
+                            .setContentIntent(pendingIntent)
+                            .setGroup(GROUP_KEY_RELEASES)
+                            .setAutoCancel(true)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .setStyle(inboxStyle)
+                            .build()
+                    )
+                }
+                else -> {
+                    notificationManager.notify(
+                        System.currentTimeMillis().toInt(),
+                        NotificationCompat.Builder(context, "1")
+                            .setContentTitle(inboxTitle)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                            .setContentText(inboxMessage)
+                            .setContentIntent(pendingIntent)
+                            .setGroup(GROUP_KEY_RELEASES)
+                            .setGroupSummary(true)
+                            .setOngoing(false)
+                            .setAutoCancel(true)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setStyle(inboxStyle)
+                            .build()
+                    )
+                }
+            }
+        }
+    }
+
     private fun getMovieReleasedToday(context: Context) {
         val df = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val now = df.format(Date())
@@ -215,7 +378,24 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                     if (response.isSuccessful) {
                         response.body()?.results?.let {
                             if (it.isNotEmpty()) {
-                                showAlarmNotification(context, it[0].title, it[0].overview)
+                                for (i in 0 until it.size) {
+                                    idReleaseNotification = i
+                                    Log.d(
+                                        "Izza",
+                                        "Release Notif $idReleaseNotification ${it[i].title}"
+                                    )
+                                    stackNotif.add(
+                                        NotificationItem(
+                                            idReleaseNotification,
+                                            it[i].title,
+                                            it[i].overview
+                                        )
+                                    )
+                                    if (idReleaseNotification < MAX_RELEASE_NOTIFICATION)
+                                        showReleaseNotification(context)
+                                }
+                                if (idReleaseNotification >= MAX_RELEASE_NOTIFICATION)
+                                    showReleaseNotification(context)
                             } else {
                                 showAlarmNotification(
                                     context,
