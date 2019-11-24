@@ -36,7 +36,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
         val CHANNEL_ID = "Channel_1"
         val CHANNEL_NAME = "Movie Channel"
-        private const val NOTIFICATION_ID = 1
+        private const val NOTIFICATION_ID_DAILY = 1
+        private const val NOTIFICATION_ID_RELEASE = 2
 
         private const val MAX_RELEASE_NOTIFICATION = 2
         var idReleaseNotification = 0
@@ -139,7 +140,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
             notificationManager.createNotificationChannel(notificationChannel)
             notificationManager.notify(
-                NOTIFICATION_ID,
+                NOTIFICATION_ID_DAILY,
                 NotificationCompat.Builder(context, CHANNEL_ID)
                     .setChannelId(CHANNEL_ID)
                     .setContentTitle(title)
@@ -162,7 +163,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
             )
         } else {
             notificationManager.notify(
-                NOTIFICATION_ID,
+                NOTIFICATION_ID_DAILY,
                 NotificationCompat.Builder(context, CHANNEL_ID)
                     .setContentTitle(title)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(message))
@@ -217,7 +218,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
                     notificationManager.createNotificationChannel(notificationChannel)
                     notificationManager.notify(
-                        NOTIFICATION_ID,
+                        NOTIFICATION_ID_RELEASE,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setChannelId(CHANNEL_ID)
                             .setContentTitle(title)
@@ -242,7 +243,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                 }
                 else -> {
                     notificationManager.notify(
-                        NOTIFICATION_ID,
+                        NOTIFICATION_ID_RELEASE,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setContentTitle(title)
                             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
@@ -289,7 +290,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
                     notificationManager.createNotificationChannel(notificationChannel)
                     notificationManager.notify(
-                        NOTIFICATION_ID,
+                        NOTIFICATION_ID_RELEASE,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setChannelId(CHANNEL_ID)
                             .setContentTitle(inboxTitle)
@@ -315,7 +316,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                 }
                 else -> {
                     notificationManager.notify(
-                        NOTIFICATION_ID,
+                        NOTIFICATION_ID_RELEASE,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setContentTitle(inboxTitle)
                             .setContentText(inboxMessage)
