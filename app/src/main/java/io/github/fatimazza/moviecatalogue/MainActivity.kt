@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.fatimazza.moviecatalogue.fragment.ListFavoriteFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListMovieFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListTelevisionFragment
+import io.github.fatimazza.moviecatalogue.receiver.DailyReminderAlarmReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -74,6 +75,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_container, fragment, fragment::class.java.simpleName)
             .commit()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        DailyReminderAlarmReceiver.stackNotif.clear()
+        DailyReminderAlarmReceiver.idReleaseNotification = 0
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

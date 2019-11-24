@@ -34,8 +34,9 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
         private const val ID_DAILY = 100
         private const val ID_RELEASE = 101
 
-        private const val MAX_RELEASE_NOTIFICATION = 1
-        private var idReleaseNotification = 0
+        private const val MAX_RELEASE_NOTIFICATION = 2
+        var idReleaseNotification = 0
+        val stackNotif = ArrayList<NotificationItem>()
     }
 
     var dailyAlarm: AlarmManager? = null
@@ -43,8 +44,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
     var dailyPendingIntent: PendingIntent? = null
     var releasePendingIntent: PendingIntent? = null
-
-    private val stackNotif = ArrayList<NotificationItem>()
 
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
@@ -294,7 +293,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setChannelId(CHANNEL_ID)
                             .setContentTitle(inboxTitle)
-                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                             .setContentText(inboxMessage)
                             .setSmallIcon(R.drawable.ic_movie_notification)
                             .setLargeIcon(
@@ -305,6 +303,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                             )
                             .setContentIntent(pendingIntent)
                             .setGroup(GROUP_KEY_RELEASES)
+                            .setGroupSummary(true)
                             .setAutoCancel(true)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -319,7 +318,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                         System.currentTimeMillis().toInt(),
                         NotificationCompat.Builder(context, "1")
                             .setContentTitle(inboxTitle)
-                            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .setContentText(inboxMessage)
                             .setContentIntent(pendingIntent)
@@ -367,11 +365,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                                             it[i].overview
                                         )
                                     )
-                                    if (idReleaseNotification < MAX_RELEASE_NOTIFICATION)
-                                        showReleaseNotification(context)
                                 }
-                                if (idReleaseNotification >= MAX_RELEASE_NOTIFICATION)
-                                    showReleaseNotification(context)
+                                showReleaseNotification(context)
                             } else {
                                 showAlarmNotification(
                                     context,
