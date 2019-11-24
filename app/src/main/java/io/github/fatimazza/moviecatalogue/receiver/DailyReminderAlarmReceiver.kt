@@ -34,6 +34,10 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
         private const val ID_DAILY = 100
         private const val ID_RELEASE = 101
 
+        val CHANNEL_ID = "Channel_1"
+        val CHANNEL_NAME = "Movie Channel"
+        private const val NOTIFICATION_ID = 1
+
         private const val MAX_RELEASE_NOTIFICATION = 2
         var idReleaseNotification = 0
         val stackNotif = ArrayList<NotificationItem>()
@@ -113,8 +117,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun showAlarmNotification(context: Context, title: String, message: String) {
-        val CHANNEL_ID = "Channel_1"
-        val CHANNEL_NAME = "Movie Channel"
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -137,7 +139,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
             notificationManager.createNotificationChannel(notificationChannel)
             notificationManager.notify(
-                System.currentTimeMillis().toInt(),
+                NOTIFICATION_ID,
                 NotificationCompat.Builder(context, CHANNEL_ID)
                     .setChannelId(CHANNEL_ID)
                     .setContentTitle(title)
@@ -160,8 +162,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
             )
         } else {
             notificationManager.notify(
-                System.currentTimeMillis().toInt(),
-                NotificationCompat.Builder(context, System.currentTimeMillis().toString())
+                NOTIFICATION_ID,
+                NotificationCompat.Builder(context, CHANNEL_ID)
                     .setContentTitle(title)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                     .setContentText(message)
@@ -185,8 +187,6 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun showReleaseNotification(context: Context) {
-        val CHANNEL_ID = "Channel_1"
-        val CHANNEL_NAME = "Movie Channel"
 
         val GROUP_KEY_RELEASES = "group_key_releases"
 
@@ -217,7 +217,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
                     notificationManager.createNotificationChannel(notificationChannel)
                     notificationManager.notify(
-                        System.currentTimeMillis().toInt(),
+                        NOTIFICATION_ID,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setChannelId(CHANNEL_ID)
                             .setContentTitle(title)
@@ -242,8 +242,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                 }
                 else -> {
                     notificationManager.notify(
-                        System.currentTimeMillis().toInt(),
-                        NotificationCompat.Builder(context, System.currentTimeMillis().toString())
+                        NOTIFICATION_ID,
+                        NotificationCompat.Builder(context, CHANNEL_ID)
                             .setContentTitle(title)
                             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                             .setContentText(message)
@@ -289,7 +289,7 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
 
                     notificationManager.createNotificationChannel(notificationChannel)
                     notificationManager.notify(
-                        System.currentTimeMillis().toInt(),
+                        NOTIFICATION_ID,
                         NotificationCompat.Builder(context, CHANNEL_ID)
                             .setChannelId(CHANNEL_ID)
                             .setContentTitle(inboxTitle)
@@ -315,19 +315,26 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
                 }
                 else -> {
                     notificationManager.notify(
-                        System.currentTimeMillis().toInt(),
-                        NotificationCompat.Builder(context, "1")
+                        NOTIFICATION_ID,
+                        NotificationCompat.Builder(context, CHANNEL_ID)
                             .setContentTitle(inboxTitle)
-                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .setContentText(inboxMessage)
+                            .setSmallIcon(R.drawable.ic_movie_notification)
+                            .setLargeIcon(
+                                BitmapFactory.decodeResource(
+                                    context.resources,
+                                    R.drawable.ic_movie_notification
+                                )
+                            )
                             .setContentIntent(pendingIntent)
                             .setGroup(GROUP_KEY_RELEASES)
                             .setGroupSummary(true)
                             .setOngoing(false)
                             .setAutoCancel(true)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
                             .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setVibrate(longArrayOf(100, 0, 100, 100, 100, 100, 0, 100, 0, 100))
+                            .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                             .setStyle(inboxStyle)
                             .build()
                     )
