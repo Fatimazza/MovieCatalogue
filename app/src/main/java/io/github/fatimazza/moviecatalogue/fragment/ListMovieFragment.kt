@@ -7,6 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,16 +19,28 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.ListMovieAdapter
+import io.github.fatimazza.moviecatalogue.databinding.FragmentListMovieBinding
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
 import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.fragment_list_movie.*
 
 class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
     SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
+    private var _binding: FragmentListMovieBinding? = null
+    private val binding get() = _binding!!
+
     private val listMovie: RecyclerView
-        get() = rv_movie
+        get() = binding.rvMovie
+
+    private val llMovieFailed: LinearLayout
+        get() = binding.llMovieFailed
+
+    private val pbLoadingMovie: ProgressBar
+        get() = binding.pbLoadingMovie
+
+    private val btnRetryMovie: Button
+        get() = binding.btnRetryMovie
 
     private lateinit var listMovieAdapter: ListMovieAdapter
 
@@ -55,7 +70,8 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_movie, container, false)
+        _binding = FragmentListMovieBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -230,5 +246,10 @@ class ListMovieFragment : Fragment(), ListMovieAdapter.OnItemClickCallback,
     override fun onMenuItemActionCollapse(menuItem: MenuItem?): Boolean {
         fetchMovieData()
         return true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

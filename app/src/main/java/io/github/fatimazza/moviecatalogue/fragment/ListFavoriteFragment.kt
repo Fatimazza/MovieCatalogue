@@ -7,25 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.FavoritesPagerAdapter
-import kotlinx.android.synthetic.main.fragment_list_favorite.*
+import io.github.fatimazza.moviecatalogue.databinding.FragmentListFavoriteBinding
 
 
 class ListFavoriteFragment : Fragment() {
 
+    private var _binding: FragmentListFavoriteBinding? = null
+    private val binding get() = _binding!!
+
     private val favTabLayout: TabLayout
-        get() = tab_favorite
+        get() = binding.tabFavorite
 
     private val favViewPager: ViewPager
-        get() = vp_favorite
+        get() = binding.vpFavorite
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_favorite, container, false)
+        _binding = FragmentListFavoriteBinding.inflate(inflater, container, false)
+        return binding.root
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,5 +39,10 @@ class ListFavoriteFragment : Fragment() {
     private fun initPageAdapter() {
         favViewPager.adapter = FavoritesPagerAdapter(childFragmentManager, requireContext())
         favTabLayout.setupWithViewPager(favViewPager)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -7,6 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,16 +19,28 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
 import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.ListTelevisionAdapter
+import io.github.fatimazza.moviecatalogue.databinding.FragmentListTelevisionBinding
 import io.github.fatimazza.moviecatalogue.model.TvShowResponse
 import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.TvShowViewModel
-import kotlinx.android.synthetic.main.fragment_list_television.*
 
 class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCallback,
     SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
+    private var _binding: FragmentListTelevisionBinding? = null
+    private val binding get() = _binding!!
+
     private val listTelevision: RecyclerView
-        get() = rv_tvshow
+        get() = binding.rvTvshow
+
+    private val llTelevisionFailed: LinearLayout
+        get() = binding.llTelevisionFailed
+
+    private val pbLoadingTelevision: ProgressBar
+        get() = binding.pbLoadingTelevision
+
+    private val btnRetryTelevision: Button
+        get() = binding.btnRetryTelevision
 
     private lateinit var listTelevisionAdapter: ListTelevisionAdapter
 
@@ -55,7 +70,8 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_television, container, false)
+        _binding = FragmentListTelevisionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -231,5 +247,10 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
     override fun onMenuItemActionCollapse(menuItem: MenuItem?): Boolean {
         fetchTelevisionData()
         return true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

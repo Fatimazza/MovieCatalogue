@@ -12,18 +12,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.myfavoritemovies.FavoriteViewModel
-import io.github.fatimazza.myfavoritemovies.R
+import io.github.fatimazza.myfavoritemovies.databinding.FragmentFavoriteMovieBinding
 import io.github.fatimazza.myfavoritemovies.entity.FavoriteMovie
-import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 
 
 class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallback {
 
+    private var _binding: FragmentFavoriteMovieBinding? = null
+    private val binding get() = _binding!!
+
     private val listFavMovie: RecyclerView
-        get() = rv_fav_movie
+        get() = binding.rvFavMovie
 
     private val tvFavMovieEmpty: TextView
-        get() = tv_fav_movie_empty
+        get() = binding.tvFavMovieEmpty
 
     private lateinit var listFavMovieAdapter: FavoriteMovieAdapter
 
@@ -34,7 +36,8 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_movie, container, false)
+        _binding = FragmentFavoriteMovieBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,5 +85,10 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
             putExtra(DetailMovieActivity.EXTRA_MOVIE, data.movieId)
         }
         startActivity(intentMovie)*/
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

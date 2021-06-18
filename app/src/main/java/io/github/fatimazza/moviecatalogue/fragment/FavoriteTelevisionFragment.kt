@@ -12,20 +12,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.fatimazza.moviecatalogue.DetailMovieActivity
-import io.github.fatimazza.moviecatalogue.R
 import io.github.fatimazza.moviecatalogue.adapter.FavoriteTelevisionAdapter
 import io.github.fatimazza.moviecatalogue.database.FavoriteTv
+import io.github.fatimazza.moviecatalogue.databinding.FragmentFavoriteTelevisionBinding
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
-import kotlinx.android.synthetic.main.fragment_favorite_television.*
 
 
 class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemClickCallback {
 
+    private var _binding: FragmentFavoriteTelevisionBinding? = null
+    private val binding get() = _binding!!
+
     private val listFavTelevision: RecyclerView
-        get() = rv_fav_tv
+        get() = binding.rvFavTv
 
     private val tvFavTelevisionEmpty: TextView
-        get() = tv_fav_television_empty
+        get() = binding.tvFavTelevisionEmpty
 
     private lateinit var listFavTelevisionAdapter: FavoriteTelevisionAdapter
 
@@ -36,7 +38,8 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_television, container, false)
+        _binding = FragmentFavoriteTelevisionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,5 +83,10 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
             putExtra(DetailMovieActivity.EXTRA_TELEVISION, data.tvId)
         }
         startActivity(intentMovie)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

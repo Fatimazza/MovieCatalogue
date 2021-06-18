@@ -9,9 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,33 +21,44 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.database.FavoriteMovie
 import io.github.fatimazza.moviecatalogue.database.FavoriteTv
+import io.github.fatimazza.moviecatalogue.databinding.ActivityDetailMovieBinding
 import io.github.fatimazza.moviecatalogue.utils.getFormattedLanguage
 import io.github.fatimazza.moviecatalogue.viewmodel.DetailViewModel
 import io.github.fatimazza.moviecatalogue.viewmodel.FavoriteViewModel
-import kotlinx.android.synthetic.main.activity_detail_movie.*
 
 class DetailMovieActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDetailMovieBinding
+
     private val ivMovieImage: ImageView
-        get() = iv_movie_image
+        get() = binding.ivMovieImage
 
     private val tvMovieTitle: TextView
-        get() = tv_movie_title
+        get() = binding.tvMovieTitle
 
     private val tvMovieReleaseTitle: TextView
-        get() = tv_movie_release_title
+        get() = binding.tvMovieReleaseTitle
 
     private val tvMovieRelease: TextView
-        get() = tv_movie_release
+        get() = binding.tvMovieRelease
 
     private val tvMovieRateTitle: TextView
-        get() = tv_movie_time_title
+        get() = binding.tvMovieTimeTitle
 
     private val tvMovieRate: TextView
-        get() = tv_movie_rate
+        get() = binding.tvMovieRate
 
     private val tvMovieDescription: TextView
-        get() = tv_movie_desc
+        get() = binding.tvMovieDesc
+
+    private val btnRetryDetail: Button
+        get() = binding.btnRetryDetail
+
+    private val pbLoadingDetail: ProgressBar
+        get() = binding.pbLoadingDetail
+
+    private val llDetailFailed: LinearLayout
+        get() = binding.llDetailFailed
 
     private var menuItem: Menu? = null
 
@@ -87,7 +96,8 @@ class DetailMovieActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_movie)
+        binding = ActivityDetailMovieBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         getIntentExtra()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

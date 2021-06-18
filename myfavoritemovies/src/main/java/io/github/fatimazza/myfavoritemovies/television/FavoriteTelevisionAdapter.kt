@@ -10,8 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.myfavoritemovies.BuildConfig
 import io.github.fatimazza.myfavoritemovies.R
+import io.github.fatimazza.myfavoritemovies.databinding.ItemListMovieBinding
 import io.github.fatimazza.myfavoritemovies.entity.FavoriteTv
-import kotlinx.android.synthetic.main.item_list_movie.view.*
 
 
 class FavoriteTelevisionAdapter :
@@ -40,10 +40,11 @@ class FavoriteTelevisionAdapter :
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemListMovieBinding.bind(view)
         fun bind(television: FavoriteTv, position: Int) {
             with(view) {
-                tv_movie_title_item.text = television.tvTitle
-                tv_movie_desc_item.text = if (television.tvOverview.isEmpty())
+                binding.tvMovieTitleItem.text = television.tvTitle
+                binding.tvMovieDescItem.text = if (television.tvOverview.isEmpty())
                     context.getString(R.string.list_movie_description_empty) else television.tvOverview
 
                 Glide.with(view.context)
@@ -51,7 +52,7 @@ class FavoriteTelevisionAdapter :
                     .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                     .placeholder(R.color.colorAccent)
-                    .into(iv_movie_image_item)
+                    .into(binding.ivMovieImageItem)
             }
             view.setOnClickListener { onItemClickCallback.onItemClicked(tvShowData[position]) }
         }

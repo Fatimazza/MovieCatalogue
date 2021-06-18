@@ -1,26 +1,36 @@
 package io.github.fatimazza.moviecatalogue
 
 import android.os.Bundle
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
+import io.github.fatimazza.moviecatalogue.databinding.ActivityReminderBinding
 import io.github.fatimazza.moviecatalogue.model.SPReminderModel
 import io.github.fatimazza.moviecatalogue.receiver.DailyReminderAlarmReceiver
 import io.github.fatimazza.moviecatalogue.utils.ReminderPreference
-import kotlinx.android.synthetic.main.activity_reminder.*
 
 class ReminderActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityReminderBinding
+
+    private val releaseSwitch : Switch
+        get() = binding.releaseSwitch
+
+    private val dailySwitch : Switch
+        get() = binding.dailySwitch
 
     private lateinit var reminderPreference: ReminderPreference
     private lateinit var reminderModel: SPReminderModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reminder)
+        binding = ActivityReminderBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         showExistingPreference()
 
         val alarmReceiver = DailyReminderAlarmReceiver()
 
-        release_switch.setOnCheckedChangeListener { _, isChecked ->
+        releaseSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 alarmReceiver.startReleaseAlarm(
                     this,
@@ -30,10 +40,10 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopReleaseAlarm()
             }
-            saveReminder(daily_switch.isChecked, release_switch.isChecked)
+            saveReminder(dailySwitch.isChecked, releaseSwitch.isChecked)
         }
 
-        daily_switch.setOnCheckedChangeListener { _, isChecked ->
+        dailySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 alarmReceiver.startDailyAlarm(
                     this,
@@ -43,15 +53,15 @@ class ReminderActivity : AppCompatActivity() {
             } else {
                 alarmReceiver.stopDailyAlarm()
             }
-            saveReminder(daily_switch.isChecked, release_switch.isChecked)
+            saveReminder(dailySwitch.isChecked, releaseSwitch.isChecked)
         }
     }
 
     private fun showExistingPreference() {
         reminderPreference = ReminderPreference(this)
         reminderModel = reminderPreference.getReminder()
-        daily_switch.isChecked = reminderModel.isdailyReminderActive
-        release_switch.isChecked = reminderModel.isreleaseReminderActive
+        dailySwitch.isChecked = reminderModel.isdailyReminderActive
+        releaseSwitch.isChecked = reminderModel.isreleaseReminderActive
     }
 
     private fun saveReminder(

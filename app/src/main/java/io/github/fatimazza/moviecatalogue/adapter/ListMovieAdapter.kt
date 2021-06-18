@@ -10,8 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.github.fatimazza.moviecatalogue.BuildConfig
 import io.github.fatimazza.moviecatalogue.R
+import io.github.fatimazza.moviecatalogue.databinding.ItemListMovieBinding
 import io.github.fatimazza.moviecatalogue.model.MovieResponse
-import kotlinx.android.synthetic.main.item_list_movie.view.*
 
 class ListMovieAdapter :
     RecyclerView.Adapter<ListMovieAdapter.ViewHolder>() {
@@ -39,10 +39,11 @@ class ListMovieAdapter :
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemListMovieBinding.bind(view)
         fun bind(movie: MovieResponse, position: Int) {
             with(view) {
-                tv_movie_title_item.text = movie.title
-                tv_movie_desc_item.text = if (movie.overview.isEmpty())
+                binding.tvMovieTitleItem.text = movie.title
+                binding.tvMovieDescItem.text = if (movie.overview.isEmpty())
                     context.getString(R.string.list_movie_description_empty) else movie.overview
 
                 Glide.with(view.context)
@@ -50,7 +51,7 @@ class ListMovieAdapter :
                     .apply(RequestOptions().override(Target.SIZE_ORIGINAL))
                     .apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                     .placeholder(R.color.colorAccent)
-                    .into(iv_movie_image_item)
+                    .into(binding.ivMovieImageItem)
             }
             view.setOnClickListener { onItemClickCallback.onItemClicked(movieData[position]) }
         }

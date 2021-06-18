@@ -4,20 +4,22 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
-
+import io.github.fatimazza.myfavoritemovies.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     private val favTabLayout: TabLayout
-        get() = tab_favorite
+        get() = binding.tabFavorite
 
     private val favViewPager: ViewPager
-        get() = vp_favorite
+        get() = binding.vpFavorite
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initPageAdapter()
     }
 

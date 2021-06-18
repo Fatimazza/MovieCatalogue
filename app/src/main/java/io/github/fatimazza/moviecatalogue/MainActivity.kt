@@ -11,22 +11,25 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import io.github.fatimazza.moviecatalogue.databinding.ActivityMainBinding
 import io.github.fatimazza.moviecatalogue.fragment.ListFavoriteFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListMovieFragment
 import io.github.fatimazza.moviecatalogue.fragment.ListTelevisionFragment
 import io.github.fatimazza.moviecatalogue.receiver.DailyReminderAlarmReceiver
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     private val bottomNavigation: BottomNavigationView
-        get() = nav_view_main
+        get() = binding.navViewMain
 
     private lateinit var localeChangedReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         createLocaleChangedReceiver()
         setupBottomNavigation(savedInstanceState)
