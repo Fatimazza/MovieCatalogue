@@ -235,11 +235,11 @@ class DetailMovieActivity : AppCompatActivity() {
                     showLoading(false)
                     if (movieDetail != null) {
                         populateDetails(
-                            movieDetail.title ?: "",
-                            movieDetail.overview ?: "",
-                            movieDetail.release_date ?: "",
-                            movieDetail.vote_average.toString() ?: "",
-                            movieDetail.poster_path ?: ""
+                            movieDetail.title,
+                            movieDetail.overview,
+                            movieDetail.release_date,
+                            movieDetail.vote_average.toString(),
+                            movieDetail.poster_path
                         )
                         showDetailMovie(true)
                         setFavorite()
@@ -255,11 +255,11 @@ class DetailMovieActivity : AppCompatActivity() {
                     showLoading(false)
                     if (tvDetail != null) {
                         populateDetails(
-                            tvDetail.name ?: "",
-                            tvDetail.overview ?: "",
-                            tvDetail.first_air_date ?: "",
-                            tvDetail.vote_average.toString() ?: "",
-                            tvDetail.poster_path ?: ""
+                            tvDetail.name,
+                            tvDetail.overview,
+                            tvDetail.first_air_date,
+                            tvDetail.vote_average.toString(),
+                            tvDetail.poster_path
                         )
                         showDetailMovie(true)
                         setFavorite()

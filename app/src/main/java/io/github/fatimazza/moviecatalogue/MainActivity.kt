@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener =
         object : BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                val fragment: Fragment
                 when (item.itemId) {
                     R.id.navigation_movie -> {
                         loadFragment(ListMovieFragment())
