@@ -6,6 +6,7 @@ plugins{
 }
 
 android {
+    namespace 'io.github.fatimazza.moviecatalogue'
     compileSdkVersion 34
     defaultConfig {
         applicationId "io.github.fatimazza.moviecatalogue"
