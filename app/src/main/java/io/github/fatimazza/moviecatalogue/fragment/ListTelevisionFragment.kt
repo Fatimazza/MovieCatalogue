@@ -240,11 +240,11 @@ class ListTelevisionFragment : Fragment(), ListTelevisionAdapter.OnItemClickCall
         super.onCreateOptionsMenu(menu, menuInflater)
     }
 
-    override fun onMenuItemActionExpand(menuItem: MenuItem?): Boolean {
+    override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
         return true
     }
 
-    override fun onMenuItemActionCollapse(menuItem: MenuItem?): Boolean {
+    override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
         fetchTelevisionData()
         return true
     }
