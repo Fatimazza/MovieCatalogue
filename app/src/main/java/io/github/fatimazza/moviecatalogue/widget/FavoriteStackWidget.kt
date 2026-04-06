@@ -72,7 +72,7 @@ class FavoriteStackWidget : AppWidgetProvider() {
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()
 
             val toastPendingIntent = PendingIntent.getBroadcast(
-                context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT
+                context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
             )
             views.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent)
 
