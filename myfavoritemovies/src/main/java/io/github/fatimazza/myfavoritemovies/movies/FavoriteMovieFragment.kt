@@ -54,7 +54,7 @@ class FavoriteMovieFragment : Fragment(), FavoriteMovieAdapter.OnItemClickCallba
     }
 
     private fun initFavoriteMovieViewModel() {
-        favMovieViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FavoriteViewModel::class.java)
+        favMovieViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
     }
 
     private fun setupListFavoriteMovieAdapter() {
