@@ -55,7 +55,7 @@ class FavoriteTelevisionFragment : Fragment(), FavoriteTelevisionAdapter.OnItemC
     }
 
     private fun initFavoriteTelevisionViewModel() {
-        favTelevisionViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        favTelevisionViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FavoriteViewModel::class.java)
     }
 
     private fun setupListFavoriteTelevisionAdapter() {
