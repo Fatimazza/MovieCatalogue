@@ -47,8 +47,8 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     var dailyAlarm: AlarmManager? = null
     var releaseAlarm: AlarmManager? = null
 
-    var dailyPendingIntent: PendingIntent? = null
-    var releasePendingIntent: PendingIntent? = null
+    lateinit var dailyPendingIntent: PendingIntent
+    lateinit var releasePendingIntent: PendingIntent
 
     override fun onReceive(context: Context, intent: Intent) {
         // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
@@ -79,7 +79,12 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
         calendar.set(Calendar.HOUR_OF_DAY, 7)
         calendar.set(Calendar.SECOND, 0)
 
-        dailyPendingIntent = PendingIntent.getBroadcast(context, ID_DAILY, intent, 0)
+        dailyPendingIntent = PendingIntent.getBroadcast(
+            context,
+            ID_DAILY,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         dailyAlarm?.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
@@ -89,7 +94,9 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     fun stopDailyAlarm() {
-        dailyAlarm?.cancel(dailyPendingIntent)
+        dailyPendingIntent?.let {
+            dailyAlarm?.cancel(it)
+        }
     }
 
     fun startReleaseAlarm(context: Context, title: String, message: String) {
@@ -114,7 +121,9 @@ class DailyReminderAlarmReceiver : BroadcastReceiver() {
     }
 
     fun stopReleaseAlarm() {
-        releaseAlarm?.cancel(releasePendingIntent)
+        releasePendingIntent?.let {
+            releaseAlarm?.cancel(it)
+        }
     }
 
     private fun showAlarmNotification(context: Context, title: String, message: String) {
