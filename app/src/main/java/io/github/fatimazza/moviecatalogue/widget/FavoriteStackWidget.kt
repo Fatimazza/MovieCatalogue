@@ -39,8 +39,8 @@ class FavoriteStackWidget : AppWidgetProvider() {
         Log.d("Izza", "onReceive ${intent.action}")
 
         val ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS)
-        if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS)) {
-            for (appWidgetId in ids) {
+        ids?.let {
+            for (appWidgetId in it) {
                 updateAppWidget(context, AppWidgetManager.getInstance(context), appWidgetId)
             }
         }
